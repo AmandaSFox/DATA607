@@ -1,0 +1,94 @@
+---
+title: "Week 2 Assignment: Movie Ratings"
+author: "Amanda Fox"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# Use library RMySQL (and its prereq library "DBI") to connect to new Azure remote 
+# resource called data607-afox03 and new schema (database) called test
+
+library (tidyverse)
+library (DBI)
+library (RMySQL)
+
+```
+
+### Background 
+
+This week's assignment required creating a small dataset of movie ratings by surveying one's acquaintances. As my family and friends are not movie buffs, I researched a set of six popular current movies on Rotten Tomatoes (https://editorial.rottentomatoes.com/guide/popular-movies/) and followed the suggestion to survey five imaginary friends, who were very accommodating with their opinions. 
+  
+  
+### Part 1: Build Table  
+  
+#### Excel: Data Preparation  
+  
+1. Created three fields: Movie Title, Reviewer, Rating  
+2. Used '=RANDBETWEEN(1,5)' to generate scores  
+3. Manually removed some values to create missing data elements  
+4. Saved file as .csv file to my local Git working directory  
+5. Opened in Notepad++ to encode as UTF-8 to work around special character (BOM) in first field name when importing into MySQL table  
+  
+  
+### Part 2: Store Data in SQL Database
+  
+#### MySQL Workbench: Create new table in Azure schema  
+  
+1. Created a new connection to my assigned Azure schema and used SET PASSWORD to reset my password  
+2. Created a table using the .csv file and data import wizard  
+    - Made sure Rating field was data type Double 
+3. Did not import records with blank ratings: See Part 4 below for rationale
+  
+  
+### Part 3: Transfer Data to R Dataframe  
+  
+#### Rstudio: Connect to Azure and fetch data
+  
+```{r}
+
+# Connect to class database
+
+classdb_connection<-dbConnect(MySQL(),user='amanda.fox02',password='FT4QT_yy',dbname='amanda.fox02',
+                              host='cunydata607sql.mysql.database.azure.com')
+  
+# Create new dataframe by fetching result of query against the "ratings" table
+df<-fetch(dbSendQuery(classdb_connection,paste0("SELECT * FROM `amanda.fox02`.ratings;")))
+
+# Profile data and verify
+str(df)  
+  
+  
+summary(df)
+
+```
+
+### Part 4: Missing Data Strategy
+
+Records with blank scores were excluded from the MySQL table and the R data frame.  
+
+In the course of this exercise, I found that MySQL very much wanted to reject records with blank scores, and I tried several ways to force it to accept blanks ('') as null values in that field. I also researched ways to use SQL to handle importing a value of '' (e.g. set values to 0 or NULL during import process).  
+
+Ultimately I decided to reject null records for this use case:  
+      - Nulls should not be treated as ratings of zero  
+      - Excluding nulls from every calculation would be cumbersome  
+      - Null records do not add value to this analysis, and we could back into them if needed  
+
+  
+### Note on Bonus Challenge Question: Normalized table structure
+
+While I did not break out the collected data into a normalized structure in this exercise, ideally we would create three tables: 
+
+1. Main data table, with codes for movies and people 
+
+Movie | Person | Rating  
+123 | A | 1  
+234 | B | 4  
+345 | B | 2  
+  
+2. Two reference tables with the descriptions for those codes (a Person table with five rows, and a Movies table with six rows)
+
+In practice, it is probably not  worth the squeeze in small datasets to design and create multiple tables and then create joins in every query, but in very large databases, it is a best practice for several very good reasons including efficiency and accuracy.
+
+For example, one can change the name of a person by changing a single record in the "person" table vs. seeking out every record with the person's old name across potentially many tables in a large database. This also reduces opportunity for errors and improves accuracy in queries and reports. Plus, in the past when storage was expensive, not duplicating data unnecessarily was in itself good management.
