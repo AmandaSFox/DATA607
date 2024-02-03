@@ -1,0 +1,68 @@
+---
+title: "Week 1 Assignment - Data Frame"
+author: "Amanda Fox"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(dplyr)
+library(plyr)
+
+```
+
+### Overview
+
+Alcohol consumption varies widely around the world, both by amount and type of beverage. The 2014 fivethirtyeight.com article "Dear Mona Followup: Where Do People Drink The Most Beer, Wine And Spirits?" (https://fivethirtyeight.com/features/dear-mona-followup-where-do-people-drink-the-most-beer-wine-and-spirits/) explores consumption trends and geographic variation using data from multiple sources.
+
+One dataset referred to in the article was created by the author using WHO data from 2010, presenting per capita annual alcohol consumption around the world for residents > 15 years of age. While the original WHO dataset expressed per capita consumption in terms of liters of pure alcohol consumed, the author restated the data in a more relatable way, calculating equivalent "servings" using average alcohol content per ounce and average ounces per serving for each of three beverage types (five ounces wine, twelve ounces beer, and 1.5 ounces hard liquor).
+
+In this analysis, we will use that dataset, found at https://raw.githubusercontent.com/fivethirtyeight/data/master/alcohol-consumption/drinks.csv, to identify (1) nations with zero reported consumption and (2) the top wine-consuming countries.
+
+```{r load_data, include=FALSE}
+
+#load data
+x<-read.csv("https://raw.githubusercontent.com/fivethirtyeight/data/master/alcohol-consumption/drinks.csv")
+
+```
+
+### Summary of Dataset and Aggregate Statistics
+
+The dataset includes 193 records displaying the calculated servings per capita for three beverage types (wine, beer, and hard liquor), as well as the WHO metric "liters pure alcohol". Below is a statistical summary of the data showing wide variation in the median and max servings consumed, among nations and across beverage types. 
+
+```{r profile_data}
+
+summary(x)
+
+```
+
+
+### Nations Reporting Zero Consumption
+
+One finding above is that the minimum amount of total liters of pure alcohol is 0.0. Isolating these records, we see that these are primarily but not exclusively Islamic nations, which historically discourage alcohol consumption. Exceptions include the Marshall Islands, San Marino, Monaco, and North Korea, which do not forbid consumption and may reflect data collection or quality issues.
+
+```{r nondrinking}
+
+nondrink<-x[x$total_litres_of_pure_alcohol==0,]
+nondrink
+```
+
+### Wine-Drinking Nations: Top 20
+
+Looking at median servings per capita, it is interesting to note that median wine consumption globally is only 8.0 glasses per capita, much lower than beer and spirits, while the max is 370 glasses. 
+For more insight into where wine consumption is concentrated, the wine data was isolated and the top-twenty nations displayed below. European nations are well-represented here, with France at the top:
+
+```{r wine_drinkers}
+wine<-x[,c("country","wine_servings")]
+colnames(wine)<-c("Country","Glasses_Per_Capita")
+head(arrange(wine,desc(Glasses_Per_Capita)),n=20)
+
+```
+
+### Conclusion
+
+The variation in alcohol consumption by nation and type of beverage reflects distinct societal differences, from France's famous love of wine to North Korea's silence on the topic. Continuing to explore these variations with an eye toward cultural, legal, economic, and other factors may be enlightening, particularly if similar datasets can be found to trend changes over time.
+
+
