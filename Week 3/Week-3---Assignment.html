@@ -11,9 +11,9 @@
 
 <meta name="author" content="Amanda Fox" />
 
-<meta name="date" content="2024-02-07" />
+<meta name="date" content="2024-02-08" />
 
-<title>Week 2 Assignment: Movie Ratings</title>
+<title>Week 3 - Assignment</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -350,125 +350,82 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Week 2 Assignment: Movie Ratings</h1>
+<h1 class="title toc-ignore">Week 3 - Assignment</h1>
 <h4 class="author">Amanda Fox</h4>
-<h4 class="date">2024-02-07</h4>
+<h4 class="date">2024-02-08</h4>
 
 </div>
 
 
-<div id="background" class="section level3">
-<h3>Background</h3>
-<p>This week’s assignment required creating a small dataset of movie
-ratings by surveying one’s acquaintances. As my family and friends are
-not movie buffs, I researched a set of six popular current movies on
-Rotten Tomatoes (<a href="https://editorial.rottentomatoes.com/guide/popular-movies/" class="uri">https://editorial.rottentomatoes.com/guide/popular-movies/</a>)
-and followed the suggestion to survey five imaginary friends, who were
-very accommodating with their opinions.</p>
-</div>
-<div id="part-1-build-table" class="section level3">
-<h3>Part 1: Build Table</h3>
-<div id="excel-data-preparation" class="section level4">
-<h4>Excel: Data Preparation</h4>
-<ol style="list-style-type: decimal">
-<li>Created three fields: Movie Title, Reviewer, Rating<br />
-</li>
-<li>Used ‘=RANDBETWEEN(1,5)’ to generate scores<br />
-</li>
-<li>Manually removed some values to create missing data elements<br />
-</li>
-<li>Saved file as .csv file to my local Git working directory<br />
-</li>
-<li>Opened in Notepad++ to encode as UTF-8 to work around special
-character (BOM) in first field name when importing into MySQL table</li>
-</ol>
-</div>
-</div>
-<div id="part-2-store-data-in-sql-database" class="section level3">
-<h3>Part 2: Store Data in SQL Database</h3>
-<div id="mysql-workbench-create-new-table-in-azure-schema" class="section level4">
-<h4>MySQL Workbench: Create new table in Azure schema</h4>
-<ol style="list-style-type: decimal">
-<li>Created a new connection to my assigned Azure schema and used SET
-PASSWORD to reset my password<br />
-</li>
-<li>Created a table using the .csv file and data import wizard
-<ul>
-<li>Made sure Rating field was data type Double</li>
-</ul></li>
-<li>Did not import records with blank ratings: See Part 4 below for
-rationale</li>
-</ol>
-</div>
-</div>
-<div id="part-3-transfer-data-to-r-dataframe" class="section level3">
-<h3>Part 3: Transfer Data to R Dataframe</h3>
-<div id="rstudio-connect-to-azure-and-fetch-data" class="section level4">
-<h4>Rstudio: Connect to Azure and fetch data</h4>
-<pre class="r"><code># Connect to class database
+<div id="identify-data-or-stats-majors-in-a-table" class="section level3">
+<h3>1. Identify Data or Stats Majors in a Table</h3>
+<p>The fivethirtyeight.com table College Majors contains 173 college
+majors (<a href="https://raw.githubusercontent.com/fivethirtyeight/data/master/college-majors/majors-list.csv" class="uri">https://raw.githubusercontent.com/fivethirtyeight/data/master/college-majors/majors-list.csv</a>).
+To identify the majors containing the strings “DATA” or “STATISTICS,” I
+first loaded the .csv from Github:</p>
+<pre class="r"><code># Load csv file from github and verify
 
-classdb_connection&lt;-dbConnect(MySQL(),user=&#39;amanda.fox02&#39;,password=&#39;7UU4-3qc&#39;,dbname=&#39;amanda.fox02&#39;,
-                              host=&#39;cunydata607sql.mysql.database.azure.com&#39;)
-  
-# Create new dataframe by fetching result of query against the &quot;ratings&quot; table
-df&lt;-fetch(dbSendQuery(classdb_connection,paste0(&quot;SELECT * FROM `amanda.fox02`.ratings;&quot;)))
+majors&lt;-read_csv(&quot;https://raw.githubusercontent.com/fivethirtyeight/data/master/college-majors/majors-list.csv&quot;)</code></pre>
+<pre><code>## Rows: 174 Columns: 3
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (3): FOD1P, Major, Major_Category
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<p>To find majors that contain the strings “DATA” or “STATISTICS” in any
+position, I used the stringr function str_detect to filter the
+dataframe:</p>
+<pre class="r"><code># Use str_detect and filter function with OR operator
+majors %&gt;% 
+  filter(str_detect(majors$Major,&quot;DATA&quot;) ==&#39;TRUE&#39;|str_detect(majors$Major,&quot;STATISTICS&quot;)==&#39;TRUE&#39;)</code></pre>
+<pre><code>## # A tibble: 3 × 3
+##   FOD1P Major                                         Major_Category         
+##   &lt;chr&gt; &lt;chr&gt;                                         &lt;chr&gt;                  
+## 1 6212  MANAGEMENT INFORMATION SYSTEMS AND STATISTICS Business               
+## 2 2101  COMPUTER PROGRAMMING AND DATA PROCESSING      Computers &amp; Mathematics
+## 3 3702  STATISTICS AND DECISION SCIENCE               Computers &amp; Mathematics</code></pre>
+<p>Another way to accomplish this would be to create flag fields in the
+dataframe to flag majors containing the words DATA or STATISTICS and
+then print the records where either of the flags = TRUE: adding flags to
+the dataframe (table, view) can be useful for frequently-used searches,
+particularly those requiring complex logic:</p>
+<pre class="r"><code># Add flags for Data and Stats majors
+majors&lt;-mutate(majors, data_flag=str_detect(majors$Major,&quot;DATA&quot;))
+majors&lt;-mutate(majors, stat_flag=str_detect(majors$Major,&quot;STATISTICS&quot;))
 
-# Profile data and verify
-str(df)  </code></pre>
-<pre><code>## &#39;data.frame&#39;:    20 obs. of  3 variables:
-##  $ Movie Title: chr  &quot;Poor Things&quot; &quot;The Beekeeper&quot; &quot;Mean Girls 2024&quot; &quot;Migration&quot; ...
-##  $ Reviewer   : chr  &quot;Amy&quot; &quot;Amy&quot; &quot;Amy&quot; &quot;Amy&quot; ...
-##  $ Rating     : num  4 3 1 5 2 2 2 1 1 5 ...</code></pre>
-<pre class="r"><code>summary(df)</code></pre>
-<pre><code>##  Movie Title          Reviewer             Rating    
-##  Length:20          Length:20          Min.   :1.00  
-##  Class :character   Class :character   1st Qu.:2.00  
-##  Mode  :character   Mode  :character   Median :3.00  
-##                                        Mean   :3.15  
-##                                        3rd Qu.:4.00  
-##                                        Max.   :5.00</code></pre>
+# Print records where either is TRUE
+majors %&gt;% 
+  filter(data_flag==&#39;TRUE&#39;|stat_flag==&#39;TRUE&#39;)</code></pre>
+<pre><code>## # A tibble: 3 × 5
+##   FOD1P Major                                 Major_Category data_flag stat_flag
+##   &lt;chr&gt; &lt;chr&gt;                                 &lt;chr&gt;          &lt;lgl&gt;     &lt;lgl&gt;    
+## 1 6212  MANAGEMENT INFORMATION SYSTEMS AND S… Business       FALSE     TRUE     
+## 2 2101  COMPUTER PROGRAMMING AND DATA PROCES… Computers &amp; M… TRUE      FALSE    
+## 3 3702  STATISTICS AND DECISION SCIENCE       Computers &amp; M… FALSE     TRUE</code></pre>
 </div>
-</div>
-<div id="part-4-missing-data-strategy" class="section level3">
-<h3>Part 4: Missing Data Strategy</h3>
-<p>Records with blank scores were excluded from the MySQL table and the
-R data frame.</p>
-<p>In the course of this exercise, I found that MySQL very much wanted
-to reject records with blank scores, and I tried several ways to force
-it to accept blanks (’‘) as null values in that field. I also researched
-ways to use SQL to handle importing a value of’’ (e.g. set values to 0
-or NULL during import process).</p>
-<p>Ultimately I decided to reject null records for this use case:<br />
-- Nulls should not be treated as ratings of zero<br />
-- Excluding nulls from every calculation would be cumbersome<br />
-- Null records do not add value to this analysis, and we could back into
-them if needed</p>
-</div>
-<div id="note-on-bonus-challenge-question-normalized-table-structure" class="section level3">
-<h3>Note on Bonus Challenge Question: Normalized table structure</h3>
-<p>While I did not break out the collected data into a normalized
-structure in this exercise, ideally we would create three tables:</p>
-<ol style="list-style-type: decimal">
-<li>Main data table, with codes for movies and people</li>
-</ol>
-<p>Movie | Person | Rating<br />
-123 | A | 1<br />
-234 | B | 4<br />
-345 | B | 2</p>
-<ol start="2" style="list-style-type: decimal">
-<li>Two reference tables with the descriptions for those codes (a Person
-table with five rows, and a Movies table with six rows)</li>
-</ol>
-<p>In practice, it is probably not worth the squeeze in small datasets
-to design and create multiple tables and then create joins in every
-query, but in very large databases, it is a best practice for several
-very good reasons including efficiency and accuracy.</p>
-<p>For example, one can change the name of a person by changing a single
-record in the “person” table vs. seeking out every record with the
-person’s old name across potentially many tables in a large database.
-This also reduces opportunity for errors and improves accuracy in
-queries and reports. Plus, in the past when storage was expensive, not
-duplicating data unnecessarily was in itself good management.</p>
+<div id="convert-vector-back-to-a-string" class="section level3">
+<h3>2. Convert vector back to a string</h3>
+<p>I created a vector of fruits and vegetables using the text string
+provided in the question. Then I converted that vector back to a string
+using the paste function, adding characters “c(” and “)” at either end;
+i.e., I recreated the function I had used to create the vector.</p>
+<pre class="r"><code># Load vector and print
+v&lt;-c(&quot;bell pepper&quot;, &quot;bilberry&quot;, &quot;blackberry&quot;, &quot;blood orange&quot;, &quot;blueberry&quot;, &quot;cantaloupe&quot;, &quot;chili pepper&quot;, &quot;cloudberry&quot;, &quot;elderberry&quot;, &quot;lime&quot;, &quot;lychee&quot;, &quot;mulberry&quot;, &quot;olive&quot;, &quot;salal berry&quot;)
+v</code></pre>
+<pre><code>##  [1] &quot;bell pepper&quot;  &quot;bilberry&quot;     &quot;blackberry&quot;   &quot;blood orange&quot; &quot;blueberry&quot;   
+##  [6] &quot;cantaloupe&quot;   &quot;chili pepper&quot; &quot;cloudberry&quot;   &quot;elderberry&quot;   &quot;lime&quot;        
+## [11] &quot;lychee&quot;       &quot;mulberry&quot;     &quot;olive&quot;        &quot;salal berry&quot;</code></pre>
+<pre class="r"><code># Convert vector back to string (&quot;a&quot;) with commas and quotes
+
+a&lt;-paste0(v,sep=&quot;&quot;,collapse=&#39;&quot;,&quot;&#39;)
+cat(a)</code></pre>
+<pre><code>## bell pepper&quot;,&quot;bilberry&quot;,&quot;blackberry&quot;,&quot;blood orange&quot;,&quot;blueberry&quot;,&quot;cantaloupe&quot;,&quot;chili pepper&quot;,&quot;cloudberry&quot;,&quot;elderberry&quot;,&quot;lime&quot;,&quot;lychee&quot;,&quot;mulberry&quot;,&quot;olive&quot;,&quot;salal berry</code></pre>
+<pre class="r"><code># Use function c to add necessary beginning and ending characters to the final string &quot;v_str&quot;
+
+v_str&lt;-paste0(&#39;c(&quot;&#39;,a,&#39;&quot;)&#39;)
+cat(v_str)</code></pre>
+<pre><code>## c(&quot;bell pepper&quot;,&quot;bilberry&quot;,&quot;blackberry&quot;,&quot;blood orange&quot;,&quot;blueberry&quot;,&quot;cantaloupe&quot;,&quot;chili pepper&quot;,&quot;cloudberry&quot;,&quot;elderberry&quot;,&quot;lime&quot;,&quot;lychee&quot;,&quot;mulberry&quot;,&quot;olive&quot;,&quot;salal berry&quot;)</code></pre>
 </div>
 
 

@@ -1,0 +1,79 @@
+---
+title: "Week 3 - Assignment"
+author: "Amanda Fox"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(tidytext)
+library(dplyr)
+library(plyr)
+```
+
+### 1. Identify Data or Stats Majors in a Table
+
+The fivethirtyeight.com table College Majors contains 173 college majors (https://raw.githubusercontent.com/fivethirtyeight/data/master/college-majors/majors-list.csv). To identify the majors containing the strings "DATA" or "STATISTICS," I first loaded the .csv from Github:
+
+
+```{r 'Load data'}
+
+# Load csv file from github and verify
+
+majors<-read_csv("https://raw.githubusercontent.com/fivethirtyeight/data/master/college-majors/majors-list.csv")
+
+```
+  
+  
+To find majors that contain the strings "DATA" or "STATISTICS" in any position, I used the stringr function str_detect to filter the dataframe:
+  
+  
+```{r 'Filter Majors'}
+
+# Use str_detect and filter function with OR operator
+majors %>% 
+  filter(str_detect(majors$Major,"DATA") =='TRUE'|str_detect(majors$Major,"STATISTICS")=='TRUE')
+
+```
+  
+  
+Another way to accomplish this would be to create flag fields in the dataframe to flag majors containing the words DATA or STATISTICS and then print the records where either of the flags = TRUE: adding flags to the dataframe (table, view) can be useful for frequently-used searches, particularly those requiring complex logic:
+  
+  
+```{r 'Flag Majors'}
+# Add flags for Data and Stats majors
+majors<-mutate(majors, data_flag=str_detect(majors$Major,"DATA"))
+majors<-mutate(majors, stat_flag=str_detect(majors$Major,"STATISTICS"))
+
+# Print records where either is TRUE
+majors %>% 
+  filter(data_flag=='TRUE'|stat_flag=='TRUE')
+
+```
+  
+  
+### 2. Convert vector back to a string 
+
+I created a vector of fruits and vegetables using the text string provided in the question. Then I converted that vector back to a string using the paste function, adding characters "c(" and ")" at either end; i.e., I recreated the function I had used to create the vector.
+
+```{r test}
+
+# Load vector and print
+v<-c("bell pepper", "bilberry", "blackberry", "blood orange", "blueberry", "cantaloupe", "chili pepper", "cloudberry", "elderberry", "lime", "lychee", "mulberry", "olive", "salal berry")
+v
+
+# Convert vector back to temporary string ("a") with commas and quotes
+
+a<-paste0(v,sep="",collapse='","')
+cat(a)
+
+# Use paste0 to add necessary beginning and ending characters to the final string "v_str"
+
+v_str<-paste0('c("',a,'")')
+cat(v_str)
+
+```
+### 3. 

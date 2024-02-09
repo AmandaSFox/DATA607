@@ -50,7 +50,7 @@ This week's assignment required creating a small dataset of movie ratings by sur
 
 # Connect to class database
 
-classdb_connection<-dbConnect(MySQL(),user='amanda.fox02',password='FT4QT_yy',dbname='amanda.fox02',
+classdb_connection<-dbConnect(MySQL(),user='amanda.fox02',password='7UU4-3qc',dbname='amanda.fox02',
                               host='cunydata607sql.mysql.database.azure.com')
   
 # Create new dataframe by fetching result of query against the "ratings" table
