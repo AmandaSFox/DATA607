@@ -26,7 +26,7 @@ unwrapped<-unwrapped[,-11]
 colnames(unwrapped)<-c("Pair","Player_Name","Points","Round_1","Round_2","Round_3","Round_4",
                        "Round_5","Round_6","Round_7","State","Player_ID_Ranks","Not_Used1","Not_Used2",
                        "Not_Used3","Not_Used4","Not_Used5","Not_Used6","Not_Used7","Not_Used8")
-unwrapped
+#unwrapped
 
 #--------SEPARATE ROUNDS DATA
 
@@ -47,25 +47,23 @@ unwrapped_sep<-
 
 #--------SEPARATE PLAYER ID AND RANK PRE- POST-
 
+unwrapped_sep<- unwrapped_sep %>% separate_wider_regex(Player_ID_Ranks, c(Player_ID = "^\\d.*","\\/\\s*R\\s*\\:",misc = ".*"))
+unwrapped_sep<- unwrapped_sep %>% separate_wider_regex(misc, c(Rank_Pre = "^\\s*\\d*\\d*\\d*\\d*.*.*.*","\\-\\s*\\>",Rank_Post = ".*"))
 
-#--------MAKE POINTS NUMERIC
+#--------SEPARATE PROVISIONAL DESIGNATIONS 
 
-unwrapped_sep <- transform(unwrapped_sep,Points = as.numeric(Points))
+unwrapped_sep<- unwrapped_sep %>% separate_wider_delim(Rank_Pre, delim="P",names=c("Rank_Pre","P_Pre"),too_few = "align_start")
+unwrapped_sep<- unwrapped_sep %>% separate_wider_delim(Rank_Post, delim="P",names=c("Rank_Post","P_Post"),too_few = "align_start")
 
+#--------MAKE POINTS AND RANKS NUMERIC
 
+unwrapped_sep_fin <- transform(unwrapped_sep,Points = as.numeric(Points))
+unwrapped_sep_fin <- transform(unwrapped_sep_fin,Rank_Pre = as.numeric(Rank_Pre))
+unwrapped_sep_fin <- transform(unwrapped_sep_fin,Rank_Post = as.numeric(Rank_Post))
+unwrapped_sep_fin <- transform(unwrapped_sep_fin,P_Pre = as.numeric(P_Pre))
+unwrapped_sep_fin <- transform(unwrapped_sep_fin,P_Post = as.numeric(P_Post))
 
-
-
-
-
-
-
-
-
-
-
-
-
+#str(unwrapped_sep_fin)
 
 
 
@@ -77,55 +75,4 @@ unwrapped_sep <- transform(unwrapped_sep,Points = as.numeric(Points))
 
 
 
-# 
-# 
-# 
-# unwrapped_sep <- unwrapped %>% separate_wider_regex(
-#                                   cols = matches("^Round.."), 
-#                                   (("WLD_", col($.))= ".*", " ", ("OPP_", col($.) = ".*"),
-#                                   patterns=
-#                                   names_sep = NULL,
-#                                   names_repair = "check_unique",
-#                                   too_few = "align_start"
-#                                   )
-# 
-# unwrapped_sep <- unwrapped %>% 
-#   separate_wider_delim(
-#   cols = matches("^Round.."), 
-#   delim=" ",
-#   names_sep = "_",
-#   names_repair = "check_unique",
-#   too_few = "align_start"
-# )
-# 
-# 
-# unwrapped_sep <- unwrapped %>% 
-#   separate_wider_regex(
-#     cols = matches("^Round.."), #var
-#     patterns = c(paste0("WLD_", seq_along(x))= ".*?", " ", paste0("OPP_", seq_along(x) = ".*"),
-#  #  patterns = c(var1 = ".*?", "_", var2 = ".*")
-#     names_sep = "_",
-#     names_repair = "check_unique",
-#     too_few = "align_start"
-#   )
-# 
-#  unwrapped %>% separate_wider_delim(c(Round_1,Round_2)
-#                                     delim = " ",
-#                                     names=c("WLD_1","Opp_1","WLD_2","OPP_2"),
-#                                     too_few = "align_start",
-#                                     too_many = "merge")
-#  
-#  
-#  
-#  
-#  
-#  
-#  #cols = matches("^Round.."),
-#  
-# unwrapped %>% separate_wider_delim("Round_1","Round_2","Round_3","Round_4","Round_5","Round_6","Round_7",
-#                     delim = " ",
-#                      names=c("WLD_1","Opp_1","WLD_2","OPP_2","WKD_3","OPP_3","WLD_4","OPP_4",
-#                             "WLD_5","OPP_5","WLD_6","OPP_6","WLD_7","OPP_7"),
-#                      too_few = "align_start",
-#                      too_many = "merge")
-#   rename_with(~paste0("C_", seq_along(.x)), .cols =  matches("^Round.."))
+
