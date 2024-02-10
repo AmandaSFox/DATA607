@@ -27,6 +27,7 @@ colnames(unwrapped)<-c("Pair","Player_Name","Points","Round_1","Round_2","Round_
                        "Not_Used3","Not_Used4","Not_Used5","Not_Used6","Not_Used7","Not_Used8")
 unwrapped
 
+unwrapped <- transform(unwrapped,Pair = as.numeric(Pair))
+unwrapped <- transform(unwrapped,Points = as.numeric(Points))
 
-
-
+str(unwrapped)
