@@ -11,7 +11,7 @@
 
 <meta name="author" content="Amanda Fox" />
 
-<meta name="date" content="2024-02-08" />
+<meta name="date" content="2024-02-09" />
 
 <title>Week 3 - Assignment</title>
 
@@ -352,7 +352,7 @@ display: none;
 
 <h1 class="title toc-ignore">Week 3 - Assignment</h1>
 <h4 class="author">Amanda Fox</h4>
-<h4 class="date">2024-02-08</h4>
+<h4 class="date">2024-02-09</h4>
 
 </div>
 
@@ -404,28 +404,139 @@ majors %&gt;%
 ## 2 2101  COMPUTER PROGRAMMING AND DATA PROCES… Computers &amp; M… TRUE      FALSE    
 ## 3 3702  STATISTICS AND DECISION SCIENCE       Computers &amp; M… FALSE     TRUE</code></pre>
 </div>
-<div id="convert-vector-back-to-a-string" class="section level3">
-<h3>2. Convert vector back to a string</h3>
-<p>I created a vector of fruits and vegetables using the text string
-provided in the question. Then I converted that vector back to a string
-using the paste function, adding characters “c(” and “)” at either end;
-i.e., I recreated the function I had used to create the vector.</p>
-<pre class="r"><code># Load vector and print
+<div id="convert-data-in-a-vector-to-a-string-in-a-given-format" class="section level3">
+<h3>2. Convert data in a vector to a string in a given format</h3>
+<p>First, I copied the text string provided in the question to create a
+vector v. Then I converted that vector to a string using the paste0
+function, adding characters “c(” and “)” at either end; i.e., I
+recreated the combine function used to create the vector.</p>
+<pre class="r"><code># Create vector v and print
 v&lt;-c(&quot;bell pepper&quot;, &quot;bilberry&quot;, &quot;blackberry&quot;, &quot;blood orange&quot;, &quot;blueberry&quot;, &quot;cantaloupe&quot;, &quot;chili pepper&quot;, &quot;cloudberry&quot;, &quot;elderberry&quot;, &quot;lime&quot;, &quot;lychee&quot;, &quot;mulberry&quot;, &quot;olive&quot;, &quot;salal berry&quot;)
 v</code></pre>
 <pre><code>##  [1] &quot;bell pepper&quot;  &quot;bilberry&quot;     &quot;blackberry&quot;   &quot;blood orange&quot; &quot;blueberry&quot;   
 ##  [6] &quot;cantaloupe&quot;   &quot;chili pepper&quot; &quot;cloudberry&quot;   &quot;elderberry&quot;   &quot;lime&quot;        
 ## [11] &quot;lychee&quot;       &quot;mulberry&quot;     &quot;olive&quot;        &quot;salal berry&quot;</code></pre>
-<pre class="r"><code># Convert vector back to string (&quot;a&quot;) with commas and quotes
+<pre class="r"><code># Convert vector back to temporary string (&quot;a&quot;) with commas and quotes
 
 a&lt;-paste0(v,sep=&quot;&quot;,collapse=&#39;&quot;,&quot;&#39;)
 cat(a)</code></pre>
 <pre><code>## bell pepper&quot;,&quot;bilberry&quot;,&quot;blackberry&quot;,&quot;blood orange&quot;,&quot;blueberry&quot;,&quot;cantaloupe&quot;,&quot;chili pepper&quot;,&quot;cloudberry&quot;,&quot;elderberry&quot;,&quot;lime&quot;,&quot;lychee&quot;,&quot;mulberry&quot;,&quot;olive&quot;,&quot;salal berry</code></pre>
-<pre class="r"><code># Use function c to add necessary beginning and ending characters to the final string &quot;v_str&quot;
+<pre class="r"><code># Use paste0 to add necessary beginning and ending characters to the final string &quot;v_str&quot;
 
 v_str&lt;-paste0(&#39;c(&quot;&#39;,a,&#39;&quot;)&#39;)
 cat(v_str)</code></pre>
 <pre><code>## c(&quot;bell pepper&quot;,&quot;bilberry&quot;,&quot;blackberry&quot;,&quot;blood orange&quot;,&quot;blueberry&quot;,&quot;cantaloupe&quot;,&quot;chili pepper&quot;,&quot;cloudberry&quot;,&quot;elderberry&quot;,&quot;lime&quot;,&quot;lychee&quot;,&quot;mulberry&quot;,&quot;olive&quot;,&quot;salal berry&quot;)</code></pre>
+</div>
+<div id="describe-how-given-expressions-will-match" class="section level3">
+<h3>3. Describe how given expressions will match</h3>
+<p>The given expressions will match strings as follows:</p>
+<p>(.)\1\1 - Needs double quotes and the backslashes need to be escaped
+(double backslashes), but with those corrections (see below), this
+expression matches to three of the same character in a row</p>
+<p>“(.)(.)\2\1” - Two characters followed immediately by the same two
+characters in reverse order</p>
+<p>(..)\1 - Needs double quotes and the backslash needs to be escaped
+(double backslash), but with this done (see below), it will match two
+characters followed immediately by the same two characters in the same
+order</p>
+<p>“(.).\1.\1” - One character followed by another, followed by the
+first character again, followed by another character, followed by the
+first character again (i.e. a string of five characters, with one
+character repeating in places 1, 3, and 5)</p>
+<p>“(.)(.)(.).*\3\2\1” - Three characters, possibly followed by one or
+more other characters, then the same three characters in reverse
+order</p>
+<pre class="r"><code>test&lt;-c(&quot;ed&quot;,&quot;bed&quot;,&quot;hundred&quot;,&quot;anna&quot;,&quot;banana&quot;,&quot;aaabbaaa&quot;)
+str_view(test,&quot;(.)\\1\\1&quot;)</code></pre>
+<pre><code>## [6] │ &lt;aaa&gt;bb&lt;aaa&gt;</code></pre>
+<pre class="r"><code>str_view(test,&quot;(.)(.)\\2\\1&quot;)</code></pre>
+<pre><code>## [4] │ &lt;anna&gt;
+## [6] │ aa&lt;abba&gt;aa</code></pre>
+<pre class="r"><code>str_view(test,&quot;(..)\\1&quot;)</code></pre>
+<pre><code>## [5] │ b&lt;anan&gt;a</code></pre>
+<pre class="r"><code>str_view(test,&quot;(.).\\1.\\1&quot;)</code></pre>
+<pre><code>## [5] │ b&lt;anana&gt;</code></pre>
+<pre class="r"><code>str_view(test,&quot;(.)(.)(.).*\\3\\2\\1&quot;)</code></pre>
+<pre><code>## [6] │ &lt;aaabbaaa&gt;</code></pre>
+</div>
+<div id="construct-regular-expressions" class="section level3">
+<h3>4. Construct regular expressions</h3>
+<p>Construct regular expressions to match words that:</p>
+<ol style="list-style-type: decimal">
+<li><p>Start and end with the same character:
+str_view(words,“(^.).*\1$“)</p></li>
+<li><p>Contain a repeated pair of letters (e.g. “church” contains “ch”
+repeated twice.): str_view(words,“(..).*\1”)</p></li>
+<li><p>Contain one letter repeated in at least three places
+(e.g. “eleven” contains three “e”s.):
+str_view(words,“.<em>(.).</em>\1.*\1”)</p></li>
+</ol>
+<pre class="r"><code># Start and end with the same character
+str_view(words,&quot;(^.).*\\1$&quot;)</code></pre>
+<pre><code>##  [36] │ &lt;america&gt;
+##  [49] │ &lt;area&gt;
+## [209] │ &lt;dad&gt;
+## [213] │ &lt;dead&gt;
+## [223] │ &lt;depend&gt;
+## [258] │ &lt;educate&gt;
+## [266] │ &lt;else&gt;
+## [268] │ &lt;encourage&gt;
+## [270] │ &lt;engine&gt;
+## [278] │ &lt;europe&gt;
+## [283] │ &lt;evidence&gt;
+## [285] │ &lt;example&gt;
+## [287] │ &lt;excuse&gt;
+## [288] │ &lt;exercise&gt;
+## [291] │ &lt;expense&gt;
+## [292] │ &lt;experience&gt;
+## [296] │ &lt;eye&gt;
+## [386] │ &lt;health&gt;
+## [394] │ &lt;high&gt;
+## [450] │ &lt;knock&gt;
+## ... and 16 more</code></pre>
+<pre class="r"><code># Contain a repeated pair of letters
+str_view(words,&quot;(..).*\\1&quot;)</code></pre>
+<pre><code>##  [48] │ ap&lt;propr&gt;iate
+## [152] │ &lt;church&gt;
+## [181] │ c&lt;ondition&gt;
+## [217] │ &lt;decide&gt;
+## [275] │ &lt;environmen&gt;t
+## [487] │ l&lt;ondon&gt;
+## [598] │ pa&lt;ragra&gt;ph
+## [603] │ p&lt;articular&gt;
+## [617] │ &lt;photograph&gt;
+## [638] │ p&lt;repare&gt;
+## [641] │ p&lt;ressure&gt;
+## [696] │ r&lt;emem&gt;ber
+## [698] │ &lt;repre&gt;sent
+## [699] │ &lt;require&gt;
+## [739] │ &lt;sense&gt;
+## [858] │ the&lt;refore&gt;
+## [903] │ u&lt;nderstand&gt;
+## [946] │ w&lt;hethe&gt;r</code></pre>
+<pre class="r"><code># Contain one letter repeated in at least three places
+str_view(words,&quot;.*(.).*\\1.*\\1&quot;)</code></pre>
+<pre><code>##  [48] │ &lt;approp&gt;riate
+##  [62] │ &lt;availa&gt;ble
+##  [86] │ &lt;believe&gt;
+##  [90] │ &lt;betwee&gt;n
+## [119] │ &lt;business&gt;
+## [221] │ &lt;degree&gt;
+## [229] │ &lt;difference&gt;
+## [233] │ &lt;discuss&gt;
+## [265] │ &lt;eleve&gt;n
+## [275] │ &lt;environmen&gt;t
+## [283] │ &lt;evidence&gt;
+## [288] │ &lt;exercise&gt;
+## [291] │ &lt;expense&gt;
+## [292] │ &lt;experience&gt;
+## [423] │ &lt;indivi&gt;dual
+## [598] │ &lt;paragra&gt;ph
+## [684] │ &lt;receive&gt;
+## [696] │ &lt;remembe&gt;r
+## [698] │ &lt;represe&gt;nt
+## [845] │ &lt;telephone&gt;
+## ... and 2 more</code></pre>
 </div>
 
 
