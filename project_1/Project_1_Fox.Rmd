@@ -182,6 +182,7 @@ write.csv(chess_data,file='chess_data_output.csv', row.names=FALSE)
 
 chess_data
 
+
 ```
 
 
