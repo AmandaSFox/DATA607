@@ -1,0 +1,69 @@
+---
+title: "Week 4 - Optional Lab"
+format: html
+editor: visual
+---
+
+```{r}
+
+#| echo: false
+
+library(tidyverse) 
+library(ggplot2)
+
+df<-diamonds
+
+```
+
+using diamonds dataset in ggplot2, show structure and summary
+
+```{r summary}
+
+# 1 structure
+
+str(diamonds)
+
+# 2 summary
+
+summary(diamonds)
+
+```
+
+frequency: count and group by/n()
+```{r frequency}
+
+# 3 frequency of colors
+
+diamonds %>% count(color)
+
+# 4 freq of cuts by color
+
+diamonds %>% group_by(color,cut) %>% summarize(n())
+
+```
+
+bar chart
+``` {x bar}
+
+# 5 bar chart
+
+ggplot(diamonds,aes(x=color,fill=color))+geom_bar()
+```
+
+scatter plot
+```{r scatter}
+
+#6 scatter plot 
+ggplot(diamonds,aes(x=carat,y=price,color=clarity)) + geom_jitter() + labs(title="Price of Diamonds by Carats and Clarity")
+```
+
+scales package: label_percent (stacked bar chart)
+
+```{r scales}
+# example of label_percent from book R for Data Science 
+
+library(ggrepel) 
+library(scales)
+
+ggplot(diamonds, aes(x =cut, fill =clarity))+ geom_bar(position ="fill")+ scale_y_continuous(name ="Percentage", labels =label_percent())
+```
