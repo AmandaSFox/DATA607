@@ -1,15 +1,16 @@
 ---
 title: "Week 5 Assignment - Fox"
 author: "Amanda Fox"
+date: Feb. 21, 2024
 format: html
 editor: source
 ---
 
-#### Intro
+#### Introduction
 
-For this assignment, we were asked to create a small .csv file, load it to R, and create a tidy dataframe.
+For this assignment, we were asked to create a small dataset as a .csv file, load it to R, and then clean, tidy, and analyze it.
 
-I used Excel to create the small dataset, which had several untidy issues: a blank row, missing values, values as column names (Cities), and variables in rows (On Time and Delayed). I saved this as a .csv file to Github.
+I used Excel to create the dataset using the example provided, which described arrival statistics for two airlines across five U.S. cities. The data had several issues to be cleaned and tidied: a blank row, missing values, values as column names (cities), and variables in rows (on time, delayed). I saved this dataset as a .csv file to Github.
 
 #### Importing the Data
 
@@ -17,20 +18,19 @@ In R, I began by loading the libraries and reading in the text file from Github:
 
 ```{r setup}
 library(tidyverse)
-library(tidyr)
-library(dplyr)
 library(ggplot2)
+library(RColorBrewer)
   
-df <- read_csv('https://raw.githubusercontent.com/AmandaSFox/DATA607/main/week%205/Week_5_Data.csv')
+df <- read_csv('https://raw.githubusercontent.com/AmandaSFox/DATA607/main/week%205/Week_5_Data.csv', show_col_types = FALSE)
 df
 
 ```
 
 #### Filter: Delete Blank Row
 
-I used the filter function to remove the blank row based on NA in the Los Angeles column. This is a small dataset, so I could see that this filter would identify all blank rows and not inadvertently delete a row with values in other columns.
+To clean the file, I first used the filter function to remove the blank row by filtering out rows with NA in the Los Angeles column. This was a very small dataset, so I could see that this filter would identify all blank rows and not inadvertently delete a row with values in other columns.
 
-In the case of a larger dataset or if I were creating a repeatable process where I could not be sure that a blank in the Los Angeles field would always indicate a blank row, I could have written this to validate that all fields were NA before deleting the row, but that wasn't necessary here.
+In the case of a larger dataset or if I were creating a repeatable process where I could not be sure that a blank in the Los Angeles field would always indicate a blank row, I would have written this to validate that all fields were NA before deleting the row, but that wasn't necessary here.
 
 ```{r blanks}
 df <- df %>% 
@@ -40,23 +40,23 @@ df
 
 #### Fill: Fill In Missing Airline Names
 
-Then I filled in the missing Airline name values using the fill function. This is a very quick and easy way to handle variables where repeating values are missing.
+Then I filled in the missing airline name values using the fill function. This is a quick and easy way to handle variables where repeating values are suppressed.
 
 ```{r fill}
 df <- df %>% 
-  fill(Airline)
+  fill(airline)
 df
 ```
 
 #### Melt: Create New City Variable
 
-The next untidy feature of this dataset was the use of values (cities) as column names. This needed to be unpivoted or melted to create the variable "City," and I used the pivot_longer function in this case to do it.
+One untidy feature of this dataset was the use of values (cities) as column names. This needed to be unpivoted or melted to create the variable "city," and I used the pivot_longer function in this case to do it.
 
 ```{r melt}
 df <- df %>% 
   pivot_longer(cols = c("Los Angeles","Phoenix","San Diego","San Francisco","Seattle"),
-               names_to = "City",
-               values_to = "Count")  
+               names_to = "city",
+               values_to = "count")  
 
 df
 ```
@@ -65,11 +65,11 @@ df
 
 To complete tidying, I pivoted out or cast the on time/delayed values to variables or columns.
 
-This leaves us with one column per variable (fixed: city, airline; measurable: on time, delayed), and one row per observation (city/airline pairs).
+This resulted in a tidy dataframe, with one column per variable (fixed: city, airline; measurable: on time, delayed), and one row per observation (city/airline pairs).
 
 ```{r cast}
 df_tidy <- df %>% 
-  pivot_wider(names_from = 'On Time/Delayed',values_from = 'Count') %>% 
+  pivot_wider(names_from = 'on time/delayed',values_from = 'count') %>% 
   dplyr::rename(on_time =`on time`) %>% 
   mutate(total_count = on_time + delayed) %>% 
   mutate(pct_on_time = on_time / total_count)
@@ -81,77 +81,91 @@ df_tidy
 
 Finally, I used this new tidy dataframe to compare arrival delays for these two airlines, both in aggregate and by city.
   
-The table below shows that Am West had significantly more flights than Alaska (7,225 vs. 3,775), and a higher overall on-time percentage (89.1% vs. 86.7%). 
+In aggregate across these five cities, Am West had significantly more flights than Alaska (7,225 vs. 3,775) and a higher overall on-time percentage (89.1% vs. 86.7%). 
   
 
 ```{r analysis}
 
 #----------Find Overall % On Time by Airline
 
-df_tidy_sum <- df_tidy %>% 
-  group_by(Airline) %>% 
+df_tidy_airline <- df_tidy %>% 
+  group_by(airline) %>% 
   summarise(tot_on_time = sum(on_time),
             tot_count = sum(total_count)) %>% 
   mutate(tot_pct_on_time = tot_on_time/tot_count)
 
+df_tidy_airline
+
 #----------Plot Overall % On Time by Airline
 
-# Total Flights by Status and Airline
-
-ggplot(df, aes(x = Airline, y = Count, fill =`On Time/Delayed`)) + 
-    geom_bar(position="stack", stat="identity") +
-    ylab("Total Flights") +
-    ggtitle("Total Flights by Airline and Status") 
-
-
-# % On Time by Status and Airline
-
-ggplot(df, aes(x = Airline, y = Count, fill =`On Time/Delayed`)) + 
+ggplot(df, aes(x = airline, y = count, fill =`on time/delayed`)) + 
     geom_bar(position="fill", stat="identity") +
-    ylab("% Flights by Status") +
-    ggtitle("Flights by Airline and Status") +
+    scale_fill_brewer(palette = "Pastel1") +
+    ylab("% Flights") +
+    xlab("Airline") +
+    ggtitle("Overall On Time % by Airline") +
+    labs(fill = "Flight Status") +
     scale_y_continuous(labels = scales::percent)
 ```
   
-Interestingly, when looking at individual cities, it is Alaska's on-time percentage that is higher in every city. 
-  
-This is the "Simpson Paradox," a phenomenon whereby a relationship between two variables that is seen in groups of data reverses when those groups are combined. 
-  
-This is because Am West flights are heavily concentrated in Phoenix, where both airlines have very high on-time percentages. Conversely, Alaska flights are concentrated in Seattle, where both airlines have lower on-time rates.
-
+However, in every individual city, Alaska's on-time percentage was higher, despite having the lower overall on-time percentage: 
+    
 ``` {r city}
 
 # % On Time by Status and Airline and City
 
-ggplot(df, aes(x = Airline, y = Count, fill =`On Time/Delayed`)) + 
+ggplot(df, aes(x = airline, y = count, fill =`on time/delayed`)) + 
     geom_bar(position="fill", stat="identity") +
-    facet_wrap(~City) +
-    ylab("% Flights by Status") +
-    ggtitle("Flights by City and Airline: On Time vs. Delayed") +
-    scale_y_continuous(labels = scales::percent)
+    scale_fill_brewer(palette = "Pastel1") +
+    facet_wrap(~city) +
+    ylab("% Flights") +
+    xlab("Airline") +
+    ggtitle("On Time % by Airline and City") +
+    labs(fill = "Flight Status") +
+    scale_y_continuous(labels = scales::percent) 
 
-# Total Flights by Status Airline and City
+```
+    
+This is the "Simpson Paradox," a phenomenon whereby a relationship between two variables that is seen in groups of data reverses when those groups are combined. 
+  
+In this case, Am West had a higher aggregate on-time percentage despite having lower rates in individual cities because its flights were heavily concentrated in Phoenix, where on-time percentages were very high. Conversely, Alaska flights were concentrated in Seattle, where on-time rates are low. Looking at percentages without understanding relative volume and how it is distributed could lead a consumer to underestimate the chance of being late on any given Am West flight vs. an Alaska one from the same airport.
+   
+```{r dist}    
 
-# ggplot(df, aes(x = Airline, y = Count, fill =`On Time/Delayed`)) + 
-#     geom_bar(position="stack", stat="identity") +
-#     facet_wrap(~City) +
-#     ylab("% Flights by Status") +
-#     ggtitle("Flights by City and Airline") 
-# 
+# Total weighted avg on-time rate by city
 
-
-# Distribution of flights across cities by airline and avg. on time %
-
-df_on_time_by_city <- df_tidy %>% 
-  group_by(City) %>% 
+df_tidy_city <- df_tidy %>% 
+  group_by(city) %>% 
   summarise(city_on_time = sum(on_time),
             city_total = sum(total_count)) %>% 
   mutate(city_pct_on_time = city_on_time/city_total)
 
-df_on_time_by_city
+# On-time % by city: by airline and in aggregate 
 
-ggplot(df_tidy,aes(x=Airline, y = total_count, fill= City)) +
-    geom_bar(position="stack", stat="identity") 
+df_tidy_city_airline <- df_tidy %>% 
+  select(city,airline,total_count,pct_on_time) %>% 
+  arrange(city) %>% 
+  left_join(df_tidy_city, join_by(x$city == y$city)) %>% 
+  rename(airline_pct_on_time = pct_on_time,
+         airline_total_flights = total_count,
+         total_on_time_flights = city_on_time,
+         total_flights = city_total,
+         total_pct_on_time = city_pct_on_time
+         ) 
+
+df_tidy_city_airline <- df_tidy_city_airline[,-3] 
+df_tidy_city_airline <- df_tidy_city_airline[,-4:-5] 
+
+df_tidy_city_airline
+
+ggplot(df_tidy,aes(x = airline, y = total_count, fill= city)) +
+  geom_bar(position="stack", stat="identity") +
+  scale_fill_brewer(palette = "Pastel1") +
+  ylab("Total Flights") +
+  xlab("Airline") +
+  ggtitle("Total Flights by City: Alaska vs. Am West") +
+  labs(fill = "City")
   
+
 
 ```
