@@ -1,0 +1,209 @@
+---
+title: "Project 1"
+author: "Amanda Fox"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(dplyr)
+library(plyr)
+
+
+```
+#### Intro  
+  
+For this project, we were asked to take a highly formatted report of chess tournament scores and create a flat .csv file with selected stats by player for use in a database. 
+  
+The report was not suitable in its initial format and extensive preparation was needed: each player's data was wrapped onto two rows with dashed lines separating them, along with inconsistent separators between fields, missing values, and other challenges. Additionally, one of the metrics requested was the average pre-chess rating of each player's opponents, which required joins and aggregation.
+  
+#### Importing the Data
+    
+I began by reading in the text file as a vector to unwrap it using the scan function, specifying a pipe delimiter, removing extra white space, and skipping the first four rows (which followed a different pattern from the rest of the data). 
+  
+Then I used rbind and split to force it into 23 columns per row to make my first dataframe of unwrapped, mostly-parsed data:
+  
+```{r load}
+
+#--------READ IN FILE, UNWRAP ROWS, SPLIT INTO 23 FIELDS AND MAKE A DF
+
+d<-"c:/users/amand/git_projects/DATA607/Project_1/data.txt"
+v <- scan(file=d, sep="|",what='',skip=4,strip.white = TRUE)
+unwrapped<-do.call(rbind, split(v, rep(1:(length(v) %/% 23), each=23)))
+unwrapped<-as.data.frame(unwrapped)
+
+head(v,40)
+head(unwrapped)
+```
+  
+#### Cleanup
+
+I did some basic cleanup on this dataframe, removing blank columns and adding column names:
+  
+```{r clean1}
+
+#--------DROP COLUMNS 11 & 22 (BLANK) AND 23 (DASHES), ADD COLUMN NAMES
+unwrapped<-unwrapped[,1:21]
+unwrapped<-unwrapped[,-11]
+
+colnames(unwrapped)<-c("Pair","Player_Name","Points","Round_1","Round_2","Round_3","Round_4",
+                       "Round_5","Round_6","Round_7","State","Player_ID_Rating","Not_Used1","Not_Used2",
+                       "Not_Used3","Not_Used4","Not_Used5","Not_Used6","Not_Used7","Not_Used8")
+
+head(unwrapped)
+```
+  
+#### Separating Fields
+
+Many columns created by the pipe-delimited methodology above needed to be separated further. I used three different versions of the separate function to do so:
+  
+1. Rounds: Used "separate" to break into "WLD" and "Opponent". R was able to separate these pretty well, but I needed to handle two cases: I used "extra" to force R to not break double-digit player IDs into two fields, and "fill" to handle cases where there was no opponent.
+  
+2. Player ID and Rating Pre/Post: I used regex to separate these, which took more time than "separate" above but allowed me to be very specific.
+  
+3. Provisional Rating: Finally, I used delimiter = "P" to easily separate the provisional designations from ratings where they were present. This was necessary in order to convert ratings to numeric for aggregation later.
+  
+```{r separate}
+
+
+#--------SEPARATE ROUNDS DATA
+
+unwrapped_sep<- 
+  unwrapped %>% separate(Round_1, c("Round_1_WLD","Round_1_Opponent"),extra="merge",fill="right")
+unwrapped_sep<- 
+  unwrapped_sep %>% separate(Round_2, c("Round_2_WLD","Round_2_Opponent"),extra="merge",fill="right")
+unwrapped_sep<- 
+  unwrapped_sep %>% separate(Round_3, c("Round_3_WLD","Round_3_Opponent"),extra="merge",fill="right")
+unwrapped_sep<- 
+  unwrapped_sep %>% separate(Round_4, c("Round_4_WLD","Round_4_Opponent"),extra="merge",fill="right")
+unwrapped_sep<- 
+  unwrapped_sep %>% separate(Round_5, c("Round_5_WLD","Round_5_Opponent"),extra="merge",fill="right")
+unwrapped_sep<- 
+  unwrapped_sep %>% separate(Round_6, c("Round_6_WLD","Round_6_Opponent"),extra="merge",fill="right")
+unwrapped_sep<- 
+  unwrapped_sep %>% separate(Round_7, c("Round_7_WLD","Round_7_Opponent"),extra="merge",fill="right")
+
+#--------SEPARATE PLAYER ID AND RATING PRE- POST-
+
+unwrapped_sep<- unwrapped_sep %>% separate_wider_regex(Player_ID_Rating, c(Player_ID = "^\\d.*","\\/\\s*R\\s*\\:",misc = ".*"))
+unwrapped_sep<- unwrapped_sep %>% separate_wider_regex(misc, c(Rating_Pre = "^\\s*\\d*\\d*\\d*\\d*.*.*.*","\\-\\s*\\>",Rating_Post = ".*"))
+
+#--------SEPARATE PROVISIONAL DESIGNATIONS 
+
+unwrapped_sep<- unwrapped_sep %>% separate_wider_delim(Rating_Pre, delim="P",names=c("Rating_Pre","P_Pre"),too_few = "align_start")
+unwrapped_sep<- unwrapped_sep %>% separate_wider_delim(Rating_Post, delim="P",names=c("Rating_Post","P_Post"),too_few = "align_start")
+
+head(unwrapped_sep)
+
+```
+  
+#### Numeric Fields
+  
+After separating fields, I used transform to change five fields to data type numeric. This also got rid of any leading/trailing spaces left in the ratings columns by separating them above.
+  
+```{r prepare}
+#--------MAKE POINTS AND RATINGS NUMERIC
+
+unwrapped_sep_fin <- transform(unwrapped_sep,Points = as.numeric(Points))
+unwrapped_sep_fin <- transform(unwrapped_sep_fin,Rating_Pre = as.numeric(Rating_Pre))
+unwrapped_sep_fin <- transform(unwrapped_sep_fin,Rating_Post = as.numeric(Rating_Post))
+unwrapped_sep_fin <- transform(unwrapped_sep_fin,P_Pre = as.numeric(P_Pre))
+unwrapped_sep_fin <- transform(unwrapped_sep_fin,P_Post = as.numeric(P_Post))
+
+```
+  
+#### Simplified Dataframes for Final Steps
+  
+With all cleanup complete, I created a simplified dataframe with only columns required for the analysis. I also created a small dataframe of ratings by player to use as a lookup for the final step of adding opponents' average ratings. 
+  
+After creating these final dataframes, I used str() to verify columns and data types before joining them:
+  
+```{r dfs}
+
+#--------CREATE SIMPLIFIED DF
+
+df <- unwrapped_sep_fin[,c("Pair","Player_ID","Player_Name","State","Points",
+                           "Rating_Pre","Round_1_Opponent","Round_2_Opponent","Round_3_Opponent",
+                           "Round_4_Opponent","Round_5_Opponent","Round_6_Opponent","Round_7_Opponent")]
+
+# ---------MAKE RATINGS TABLE
+
+df_ratings <- df[,c("Pair","Rating_Pre")]
+
+
+str(df)
+str(df_ratings)
+
+head(df)
+head(df_ratings)
+
+```
+  
+#### Add Opponents' Ratings For Each Player
+  
+I used a left join between my two new simplified dataframes to add seven new columns: each player's opponents' ratings by Round. I then renamed the new columns and validated with str(). 
+  
+```{r pop_opp_rat}
+# ---------POPULATE OPP RATINGS IN DF
+
+df <- df %>% left_join(df_ratings, join_by(x$Round_1_Opponent == y$Pair))
+df <- df %>% left_join(df_ratings, join_by(x$Round_2_Opponent == y$Pair))
+df <- df %>% left_join(df_ratings, join_by(x$Round_3_Opponent == y$Pair))
+df <- df %>% left_join(df_ratings, join_by(x$Round_4_Opponent == y$Pair))
+df <- df %>% left_join(df_ratings, join_by(x$Round_5_Opponent == y$Pair))
+df <- df %>% left_join(df_ratings, join_by(x$Round_6_Opponent == y$Pair))
+df <- df %>% left_join(df_ratings, join_by(x$Round_7_Opponent == y$Pair))
+
+
+#---------RENAME COLUMNS
+
+colnames(df)<-c("Pair","Player_ID","Player_Name","State","Points","Rating_Pre","Round_1_Opponent",
+                "Round_2_Opponent","Round_3_Opponent","Round_4_Opponent","Round_5_Opponent","Round_6_Opponent",
+                "Round_7_Opponent","Round_1_Opp_Rate","Round_2_Opp_Rate","Round_3_Opp_Rate",
+                "Round_4_Opp_Rate","Round_5_Opp_Rate","Round_6_Opp_Rate","Round_7_Opp_Rate")
+
+#str(df)
+head(df)
+
+```
+  
+#### Add Mean Opponents' Rating by Player
+  
+Finally, the transform function was used to add the final column: the mean of each player's opponents' pre-chess ratings. This was a little challenging due to missing values: the na.rm argument was required to ignore (remove) the NA values for accurate means. 
+  
+```{r add_avg}
+
+#---------ADD COL WITH AVERAGE OPP SCORES
+
+df <- transform(df, Opp_Avg_Rate = round(rowMeans(df[,14:20], na.rm = TRUE)))
+
+head(df)
+```
+  
+#### Final Output
+  
+With all required columns now in the dataframe "df," I created the final output dataframe "chess_data" with only the columns required for this exercise and used write.csv to export it.
+  
+```{r}
+#---------MAKE FINAL SUMMARY TABLE AND GENERATE .CSV TO WORKING DIRECTORY
+
+chess_data <- df [,c("Player_Name","State","Points","Rating_Pre","Opp_Avg_Rate")]
+write.csv(chess_data,file='chess_data_output.csv', row.names=FALSE)
+
+chess_data
+
+
+```
+
+
+
+
+
+
+
+

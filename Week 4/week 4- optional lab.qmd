@@ -30,6 +30,7 @@ summary(diamonds)
 ```
 
 frequency: count and group by/n()
+
 ```{r frequency}
 
 # 3 frequency of colors
@@ -43,7 +44,8 @@ diamonds %>% group_by(color,cut) %>% summarize(n())
 ```
 
 bar chart
-``` {x bar}
+
+```{x bar}
 
 # 5 bar chart
 
@@ -51,6 +53,7 @@ ggplot(diamonds,aes(x=color,fill=color))+geom_bar()
 ```
 
 scatter plot
+
 ```{r scatter}
 
 #6 scatter plot 

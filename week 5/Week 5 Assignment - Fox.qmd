@@ -1,0 +1,157 @@
+---
+title: "Week 5 Assignment - Fox"
+author: "Amanda Fox"
+format: html
+editor: source
+---
+
+#### Intro
+
+For this assignment, we were asked to create a small .csv file, load it to R, and create a tidy dataframe.
+
+I used Excel to create the small dataset, which had several untidy issues: a blank row, missing values, values as column names (Cities), and variables in rows (On Time and Delayed). I saved this as a .csv file to Github.
+
+#### Importing the Data
+
+In R, I began by loading the libraries and reading in the text file from Github:
+
+```{r setup}
+library(tidyverse)
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+  
+df <- read_csv('https://raw.githubusercontent.com/AmandaSFox/DATA607/main/week%205/Week_5_Data.csv')
+df
+
+```
+
+#### Filter: Delete Blank Row
+
+I used the filter function to remove the blank row based on NA in the Los Angeles column. This is a small dataset, so I could see that this filter would identify all blank rows and not inadvertently delete a row with values in other columns.
+
+In the case of a larger dataset or if I were creating a repeatable process where I could not be sure that a blank in the Los Angeles field would always indicate a blank row, I could have written this to validate that all fields were NA before deleting the row, but that wasn't necessary here.
+
+```{r blanks}
+df <- df %>% 
+  filter(!is.na(`Los Angeles`))
+df
+```
+
+#### Fill: Fill In Missing Airline Names
+
+Then I filled in the missing Airline name values using the fill function. This is a very quick and easy way to handle variables where repeating values are missing.
+
+```{r fill}
+df <- df %>% 
+  fill(Airline)
+df
+```
+
+#### Melt: Create New City Variable
+
+The next untidy feature of this dataset was the use of values (cities) as column names. This needed to be unpivoted or melted to create the variable "City," and I used the pivot_longer function in this case to do it.
+
+```{r melt}
+df <- df %>% 
+  pivot_longer(cols = c("Los Angeles","Phoenix","San Diego","San Francisco","Seattle"),
+               names_to = "City",
+               values_to = "Count")  
+
+df
+```
+
+#### Cast: 'On Time/Delayed' Variables
+
+To complete tidying, I pivoted out or cast the on time/delayed values to variables or columns.
+
+This leaves us with one column per variable (fixed: city, airline; measurable: on time, delayed), and one row per observation (city/airline pairs).
+
+```{r cast}
+df_tidy <- df %>% 
+  pivot_wider(names_from = 'On Time/Delayed',values_from = 'Count') %>% 
+  dplyr::rename(on_time =`on time`) %>% 
+  mutate(total_count = on_time + delayed) %>% 
+  mutate(pct_on_time = on_time / total_count)
+
+df_tidy
+```
+
+### Analysis: Arrival Delays
+
+Finally, I used this new tidy dataframe to compare arrival delays for these two airlines, both in aggregate and by city.
+  
+The table below shows that Am West had significantly more flights than Alaska (7,225 vs. 3,775), and a higher overall on-time percentage (89.1% vs. 86.7%). 
+  
+
+```{r analysis}
+
+#----------Find Overall % On Time by Airline
+
+df_tidy_sum <- df_tidy %>% 
+  group_by(Airline) %>% 
+  summarise(tot_on_time = sum(on_time),
+            tot_count = sum(total_count)) %>% 
+  mutate(tot_pct_on_time = tot_on_time/tot_count)
+
+#----------Plot Overall % On Time by Airline
+
+# Total Flights by Status and Airline
+
+ggplot(df, aes(x = Airline, y = Count, fill =`On Time/Delayed`)) + 
+    geom_bar(position="stack", stat="identity") +
+    ylab("Total Flights") +
+    ggtitle("Total Flights by Airline and Status") 
+
+
+# % On Time by Status and Airline
+
+ggplot(df, aes(x = Airline, y = Count, fill =`On Time/Delayed`)) + 
+    geom_bar(position="fill", stat="identity") +
+    ylab("% Flights by Status") +
+    ggtitle("Flights by Airline and Status") +
+    scale_y_continuous(labels = scales::percent)
+```
+  
+Interestingly, when looking at individual cities, it is Alaska's on-time percentage that is higher in every city. 
+  
+This is the "Simpson Paradox," a phenomenon whereby a relationship between two variables that is seen in groups of data reverses when those groups are combined. 
+  
+This is because Am West flights are heavily concentrated in Phoenix, where both airlines have very high on-time percentages. Conversely, Alaska flights are concentrated in Seattle, where both airlines have lower on-time rates.
+
+``` {r city}
+
+# % On Time by Status and Airline and City
+
+ggplot(df, aes(x = Airline, y = Count, fill =`On Time/Delayed`)) + 
+    geom_bar(position="fill", stat="identity") +
+    facet_wrap(~City) +
+    ylab("% Flights by Status") +
+    ggtitle("Flights by City and Airline: On Time vs. Delayed") +
+    scale_y_continuous(labels = scales::percent)
+
+# Total Flights by Status Airline and City
+
+# ggplot(df, aes(x = Airline, y = Count, fill =`On Time/Delayed`)) + 
+#     geom_bar(position="stack", stat="identity") +
+#     facet_wrap(~City) +
+#     ylab("% Flights by Status") +
+#     ggtitle("Flights by City and Airline") 
+# 
+
+
+# Distribution of flights across cities by airline and avg. on time %
+
+df_on_time_by_city <- df_tidy %>% 
+  group_by(City) %>% 
+  summarise(city_on_time = sum(on_time),
+            city_total = sum(total_count)) %>% 
+  mutate(city_pct_on_time = city_on_time/city_total)
+
+df_on_time_by_city
+
+ggplot(df_tidy,aes(x=Airline, y = total_count, fill= City)) +
+    geom_bar(position="stack", stat="identity") 
+  
+
+```
