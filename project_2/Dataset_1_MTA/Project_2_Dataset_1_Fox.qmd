@@ -1,0 +1,108 @@
+---
+title: "Project 3 - Dataset 1 - MTA Ridership"
+author: "Amanda Fox"
+date: 2/29/2024
+format: html
+editor: source
+---
+
+### Background
+
+In this project, Anna Moy presented us with a dataset of ridership statistics from the MTA for tidying and analysis (https://data.ny.gov/Transportation/MTA-Daily-Ridership-Data-Beginning-2020/vxuj-8kew/data_preview).
+
+She asked us to compare average daily ridership by year and mode of transportation and answer the following questions:
+  
+1. Summarize the  2020, 2021, 2022 average ridership for Subway, Buses, LIRR and Metro-North. 
+2. Compare the Subway and Buses and determine did more people take the Subway or Bus in 2020.
+3. Which transportation has the highest and lowest ridership in 2020.
+  
+I began by loading the libraries:
+
+```{r prep}
+
+# -------- Load libraries 
+
+library(tidyverse)
+library(ggplot2)
+library(scales)
+library(RColorBrewer)
+
+
+```
+  
+#### Cleaning and Tidying
+  
+Then I loaded the data to a data frame and did some minimal cleaning and tidying: removed extra columns, unpivoted the columns, and used stringr to extract the year from a date field which was stored as character:
+
+```{r clean}
+
+# -------- Load datafile as dataframe df_mta
+
+df_mta <- read_csv("https://raw.githubusercontent.com/AmandaSFox/DATA607/main/project_2/Dataset_1_MTA/MTA_Daily_Ridership_Data__Beginning_2020_20240228.csv")
+
+# -------- Select out columns of interest, change names, and check data types
+
+df_mta_slim <- df_mta %>% 
+  select(`Date`,`Subways: Total Estimated Ridership`,`Buses: Total Estimated Ridership`,
+         `LIRR: Total Estimated Ridership`,`Metro-North: Total Estimated Ridership`) %>% 
+  dplyr::rename(`date`=`Date`, `Subway` = `Subways: Total Estimated Ridership`, `Bus` = `Buses: Total Estimated Ridership`,
+                `LIRR` = `LIRR: Total Estimated Ridership`, `Metro-North` = `Metro-North: Total Estimated Ridership`)
+
+str(df_mta_slim)
+
+# -------- Extract four digit year as string from char field "date"
+
+df_mta_slim <- df_mta_slim %>% 
+  mutate(`year` = str_sub(df_mta$Date, start = -4)) 
+
+# -------- Melt modes of transportation
+
+df_mta_melt <- df_mta_slim %>% 
+  pivot_longer(cols = c("Subway","Bus","LIRR","Metro-North"),
+             names_to = "mode",
+             values_to = "riders") 
+
+head(df_mta_melt)
+```
+  
+#### Finding the means and generating a plot
+  
+With the data prepared, it was easy to calculate the mean ridership and create a bar chart to answer the questions:
+
+1. Summarize the  2020, 2021, 2022 average ridership for Subway, Buses, LIRR and Metro-North. **See Below**
+2. Compare the Subway and Buses and determine did more people take the Subway or Bus in 2020. **Subway**
+3. Which transportation has the highest and lowest ridership in 2020. **Subways had the highest daily ridership and Metro-North the lowest in all years**
+
+```{r mean}
+
+# -------- Calculate mean ridership by year 2020-22 
+
+df_years <- c("2020","2021","2022")
+
+df_final <- df_mta_melt %>% 
+  filter(`year` %in% df_years) %>% 
+  group_by(`year`, mode) %>% 
+  summarize (mean_ridership = round(mean(riders, na.rm = TRUE))) 
+
+df_disp <- df_final %>% 
+  pivot_wider(names_from = mode, values_from = mean_ridership)
+
+df_disp
+  
+# -------- Create bar chart
+
+ggplot(df_final,aes(x=reorder(`mode`,-mean_ridership),
+                    y = mean_ridership/1000, 
+                    fill = mode)) +
+  geom_bar(stat = "identity") +
+  scale_fill_brewer(palette = "Set3") +
+  scale_y_continuous(n.breaks=20, labels = scales::label_comma()) +
+  coord_flip() +
+  facet_wrap(~`year`,nrow = 3) +
+  xlab("Mode of Transportation") +
+  ylab("Mean Daily Ridership (Thousands)") +
+  theme(legend.position = "") +
+  ggtitle("MTA Daily Ridership by Type: 2020-2022")
+
+
+```
