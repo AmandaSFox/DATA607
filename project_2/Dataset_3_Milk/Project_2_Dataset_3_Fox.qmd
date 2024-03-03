@@ -1,0 +1,21 @@
+---
+title: "Project_2_Dataset_3_Fox"
+author: "Amanda Fox"
+date: 3/3/2024
+format: html
+---
+
+### Intro 
+
+The USDA econmic research service (ERS) publishes a dataset of US per capita fluid milk consumer availability since 1909 (Dataset: https://www.ers.usda.gov/webdocs/DataFiles/50472/dyfluid.xlsx?v=8029.7). 
+  
+"Food production" data across many categories has been collected nationally since the 1860s. Post-WWII, "food available for consumption" statistics like this fluid milk dataset became available by removing estimated pre-consumer uses and waste. Finally, an estimate of "consumption" can be calculated by removing a % for retail and consumer waste.
+  
+There are many interesting trends and nuances in national food supply data reflecting social and economic changes. In this exercise, I will clean, tidy, and analyze this data as follows:
+
+1. Describe total availability trends for four categories of fluid milk product categories
+
+2. Describe the shift between "consumed where produced" vs. consumed elsewhere from 1909 to present
+
+3. Describe consumption trends since 1950 by applying the current retail + consumer food waste estimate of 32% (USDA ERS - Loss-Adjusted Food Availability Documentation)
+
