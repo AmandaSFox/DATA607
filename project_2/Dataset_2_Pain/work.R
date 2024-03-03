@@ -6,8 +6,6 @@
 # check for regional patterns (e.g., compare prevalence rates between Northeast, Midwest, South, West regions)
 # correlation between state pain reliever misuse and whether states have expanded medicaid.
 
-
-
 # -------- Load libraries 
 
 library(tidyverse)
@@ -17,26 +15,48 @@ library(RColorBrewer)
 
 # -------- Load untidy .csv and rename/fill first column
 
-df <- read_csv("https://raw.githubusercontent.com/AmandaSFox/DATA607/main/project_2/Dataset_2_Pain/Untidied.csv") %>% 
+df <- read_csv("https://raw.githubusercontent.com/AmandaSFox/DATA607/main/project_2/Dataset_2_Pain/Untidied2.csv") %>% 
   rename("response" = "RC-PAIN RELIEVERS - PAST YEAR MISUSE") %>% 
   fill ("response")
 
-# -------- Filter only necessary rows and tidy by melting states
+str(df)
+
+# -------- Filter only necessary rows and tidy by melting states: 
+# -------- One observation = one state/response type pair. Used for stacked bar chart below.
 
 df_tidy <- filter(df, Values == "Weighted Count") %>% 
   pivot_longer(cols = c(3:55),
                names_to = "state",
-               values_to = "count")
+               values_to = "count"
+               ) %>% 
+  filter(!(state %in% c("Grand Total","Overall")))
 
-# -------- Remove old totals
+# -------- Wide tidy option: Pivot out response types into columns.  
+# -------- One observation (state) per row. Display top ten states by % Misuse:
 
-df_tidy <- filter(df_tidy, !(state %in% c("Grand Total","Overall")))
+df_tidy_wide <- pivot_wider(df_tidy, names_from = response, values_from = count) %>% 
+  mutate(`% Misused` = `1 - Misused within the past year`/Overall) 
 
-# -------- Complete tidying by pivoting out responses: one observation (state) per row
+topten <- head(arrange(df_tidy_wide,desc(`% Misused`)),n = 10)
+topten
+  
+# -------- Stacked bar chart: 
 
-df_tidy <- pivot_wider(df_tidy, names_from = response, values_from = count)
+topten_tidy <- semi_join(df_tidy, topten) %>% 
+  filter(!response == "Overall")
+                        
+ggplot(topten_tidy,aes(x = reorder(`state`,-`count`), y = `count`/1000, fill = response)) +
+  geom_bar(stat = "identity") +
+  scale_fill_brewer(palette = "Paired") +
+  scale_y_continuous(n.breaks=20, labels = scales::label_comma()) +
+  xlab("State") +
+  ylab("Total Respondents (Thousands)") +
+  ggtitle("Top Ten States (% Misuse)")
 
-# -------- Using tidy data, conduct requested analysis
+
+
+
+
 
 
 
