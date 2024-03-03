@@ -53,10 +53,25 @@ ggplot(topten_tidy,aes(x = reorder(`state`,-`count`), y = `count`/1000, fill = r
   ylab("Total Respondents (Thousands)") +
   ggtitle("Top Ten States (% Misuse)")
 
+# -------- Flag states w/o MA expansion and compare rates of misuse
 
+df_no_MA <- read_csv("https://raw.githubusercontent.com/AmandaSFox/DATA607/main/project_2/Dataset_2_Pain/MA_No_Exp.csv")
 
+df_tidy_wide <- left_join(df_tidy_wide,df_no_MA)
 
+df_MA_vs_Non <- df_tidy_wide %>% 
+  group_by(`flag`) %>% 
+  replace_na("MA_Expansion")
+  summarize(mean(`1 - Misused within the past year`/`Overall`)) %>% 
+  rename("mean % misuse" = "mean(`1 - Misused within the past year`/Overall)")
 
+df_MA_vs_Non
 
+ggplot(df_MA_vs_Non, aes(x = flag,y = `mean % misuse`, fill = flag)) +
+  geom_bar(stat = "identity") +
+  scale_y_continuous(n.breaks=20, labels = scales::label_percent()) +
+  xlab("Medicaid Expansion Status") +
+  ylab("Mean % Misuse") +
+  ggtitle("Mean % Misuse by Medicaid Expansion Status")
 
 
