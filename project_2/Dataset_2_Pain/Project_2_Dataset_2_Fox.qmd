@@ -1,0 +1,198 @@
+---
+title: "Project_2_Dataset_2_Fox"
+author: "Amanda Fox"
+date: 3/3/2024
+format: html
+---
+
+### Background
+
+In this project, Naomi Buell presented us with a dataset of pain medication misuse survey results for tidying and analysis. The data was sourced from the 2018-19 National Survey on Drug Use and Health (NSDUH) by the Substance and Mental Health Services Administration (SAMHSA): [SAMHSA 2018-19 NSDUH](https://datatools.samhsa.gov/nsduh/2019/nsduh-2018-2019-rd02yr/crosstab?row=PNRNMYR&column=STUSAB&weight=DASWT_1)).
+
+While the data as displayed at the above link was untidy, the downloaded .csv was in fact tidy. I used Excel to "untidy" it and replicate the format displayed on the site for the purposes of this exercise.
+
+Naomi asked us to use this and other data to answer the following questions about pain medication misuse:
+
+1.  Compare and rank prevalence by state
+2.  Compare survey results by whether states have expanded Medicaid
+3.  Check for regional patterns
+
+I began by loading the libraries:
+
+```{r libraries}
+# -------- Load libraries 
+
+library(tidyverse)
+library(ggplot2)
+library(scales)
+library(RColorBrewer)
+
+```
+
+I then loaded the untidied .csv file and began cleaning it by filling in missing values in the first column:
+
+```{r load}
+# -------- Load untidy .csv and rename/fill first column
+
+df <- read_csv("https://raw.githubusercontent.com/AmandaSFox/DATA607/main/project_2/Dataset_2_Pain/Untidied2.csv") %>% 
+  rename("response" = "RC-PAIN RELIEVERS - PAST YEAR MISUSE") %>% 
+  fill ("response")
+
+```
+
+I validated the data and continued cleaning by filtering for only the necessary rows, and then tidied by melting the state variables used as column headers:
+
+```{r tidy1}
+
+# -------- One observation = one state/response type pair. Used for stacked bar chart below.
+
+df_tidy <- filter(df, Values == "Weighted Count") %>% 
+  pivot_longer(cols = c(3:55),
+               names_to = "state",
+               values_to = "count"
+               ) %>% 
+  filter(!(state %in% c("Grand Total","Overall")))
+
+```
+
+Note that in the above, one observation = one pair of state + response type. This tidy format will be used later for stacked bar charts grouped by those two variables.
+
+I also created a second, wider tidy dataframe where one observation = one state. This second tidy format was appropriate to rank states.
+
+
+```{r tidy2}
+# -------- Wide tidy option: Pivot out response types into columns.  
+# -------- One observation (state) per row, used to rank states. 
+
+df_tidy_wide <- pivot_wider(df_tidy, names_from = response, values_from = count) %>% 
+  mutate(`% Misused` = `1 - Misused within the past year`/Overall) 
+
+```
+
+### 1. Compare and rank states
+
+With the data tidied, I began analysis #1: Compare and rank prevalence by state.
+
+First, I displayed the top ten states by % misuse (below) using the "wide" tidy dataframe by state. See list below: Alabama was in the top spot, with a rate of 5.34%, followed by Oregon (5.07%), Colorado (4.58%), etc., with Alaska at #10 with 4.27%.
+
+As these states are very different in population size, % does not tell the whole story. I created a stacked bar chart of the same top ten states using the "long" tidy dataframe by state/response type. The stacked bar format highlights the relative size of the top ten states.
+
+```{r stack}
+
+# -------- Display top ten states by % Misuse
+
+topten <- head(arrange(df_tidy_wide,desc(`% Misused`)),n = 10)
+select(topten,`state`,Overall,`% Misused`)
+
+# -------- Stacked bar chart of top ten states by % misuse, sorted by their relative size
+
+topten_tidy <- semi_join(df_tidy, topten, join_by(`state`)) %>% 
+  filter(!response == "Overall")
+                        
+ggplot(topten_tidy,aes(x = reorder(`state`,-`count`), y = `count`/1000, fill = response)) +
+  geom_bar(stat = "identity") +
+  scale_fill_brewer(palette = "Paired") +
+  scale_y_continuous(n.breaks=20, labels = scales::label_comma()) +
+  xlab("State") +
+  ylab("Total Respondents (000s)") +
+  ggtitle("Top Ten States % Misuse: Total Respondents (000s) by Response Type")
+```
+
+### 2. Medicaid Expansion
+
+For the next part of the analysis, I flagged the ten states that did not expand Medicaid (MA) based on the site Naomi suggested: https://www.kff.org/affordable-care-act/issue-brief/status-of-state-medicaid-expansion-decisions-interactive-map/
+
+
+```{r flagMA}
+
+#-------- Read in and display list of non-expansion states 
+
+df_no_MA <- read_csv("https://raw.githubusercontent.com/AmandaSFox/DATA607/main/project_2/Dataset_2_Pain/MA_No_Exp.csv", show_col_types = FALSE)
+df_no_MA[,1]
+
+```
+
+The below analysis shows that the ten states above without Medicaid expansion did have a slightly higher mean % misuse in this survey than states with MA expansion (3.79% vs. 3.60%):
+
+```{r flagMA2}
+
+#-------- Flag non-MA expansion states in wide tidy dataset
+
+df_no_MA <- read_csv("https://raw.githubusercontent.com/AmandaSFox/DATA607/main/project_2/Dataset_2_Pain/MA_No_Exp.csv")
+
+df_tidy_wide <- left_join(df_tidy_wide,df_no_MA)
+
+# -------- Create summary of mean % Misuse by MA/Non
+
+df_MA_vs_Non <- df_tidy_wide %>% 
+  group_by(`flag`) %>% 
+  summarize(mean(`1 - Misused within the past year`/`Overall`)) %>% 
+  rename("mean % misuse" = "mean(`1 - Misused within the past year`/Overall)")
+
+df_MA_vs_Non <- df_MA_vs_Non %>% replace_na(list(flag = "MA_Expansion"))
+
+df_MA_vs_Non
+
+# -------- Create visualization of mean % Misuse by MA/Non
+
+ggplot(df_MA_vs_Non, aes(x = flag,y = `mean % misuse`, fill = flag)) + 
+  geom_bar(stat = "identity") + 
+  scale_y_continuous(n.breaks=20, labels = scales::label_percent()) + 
+  xlab("Medicaid Expansion Status") + 
+  ylab("Mean % Misuse") + 
+  ggtitle("Mean % Misuse by Medicaid Expansion Status")
+
+```
+
+### 3.  Check for regional patterns
+
+Finally, I used a census.gov file to map states to regions and divisions, forking a .csv copy from Github (cphalpert/census-regions). Note that the original source cited (http://www.census.gov/geo/maps-data/maps/pdfs/reference/us_regdiv.pdf) is no longer a valid link; however, the mapping itself is still valid. 
+
+I followed the same process of bringing in the lookup table, joining it to the wide tidy dataframe by state, and summarizing the mean % misuse by region and division (sub-region). 
+
+The results show differences between regions and divisions: the West in aggregate had a misuse rate of 4.07%, followed by the South at 3.78%. The Northeast had the lowest % misuse reported at 2.95%. By division, the South and West occupied the top four out of nine spots (East South Central, Pacific, Mountain, and West South Central). The two Northeast divisions were ranked at the bottom, #8 & #9 with rates of 3.02% and 2.83% respectively.
+
+```{r region_div}
+
+# -------- Flag states by region and compare rates of misuse
+
+df_region <- read_csv("https://raw.githubusercontent.com/AmandaSFox/census-regions/master/us%20census%20bureau%20regions%20and%20divisions.csv")
+
+df_tidy_wide <- left_join(df_tidy_wide, df_region, join_by(x$`state` == y$`State Code`))
+
+# -------- region
+
+df_by_region <- df_tidy_wide %>%   
+  group_by(`Region`) %>% 
+  summarize(mean(`1 - Misused within the past year`/`Overall`)) %>% 
+  rename("mean % misuse" = "mean(`1 - Misused within the past year`/Overall)") %>% 
+  arrange(-`mean % misuse`)
+
+df_by_region
+
+ggplot(df_by_region, aes(x = Region,y = `mean % misuse`, fill = Region)) +
+  geom_bar(stat = "identity") + 
+  scale_y_continuous(n.breaks=12, labels = scales::label_percent()) + 
+  coord_flip() + 
+  theme(legend.position = "") + 
+  ylab("Mean % Misuse") + 
+  ggtitle("Mean % Misuse by US Census Bureau Region")
+
+# -------- division
+
+df_by_division <- df_tidy_wide %>%   
+  group_by(`Region`,`Division`) %>% 
+  summarize(mean(`1 - Misused within the past year`/`Overall`)) %>% 
+  rename("mean % misuse" = "mean(`1 - Misused within the past year`/Overall)") %>% 
+  arrange(-`mean % misuse`)
+
+df_by_division
+
+ggplot(df_by_division, aes(x = `Division`,y = `mean % misuse`, fill = Division)) +
+  geom_bar(stat = "identity") + 
+  scale_y_continuous(n.breaks=12, labels = scales::label_percent()) + 
+  coord_flip() + 
+  theme(legend.position = "") + 
+  ylab("Mean % Misuse") + 
+  ggtitle("Mean % Misuse by US Census Bureau Division")
+```
