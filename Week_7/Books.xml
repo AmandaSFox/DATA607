@@ -11,7 +11,6 @@
 		<isbn-10>"142180467"</isbn-10>
 		<amazon_rating>4.5</amazon_rating>
 	</Book>
-
 	<Book>
 		<title>"Inside of a Dog: What Dogs See, Smell, and Know"</title>
 		<author1>"Alexandra Horowitz"</author1>
@@ -22,7 +21,6 @@
 		<isbn-10>"1416583432"</isbn-10>
 		<amazon_rating>4.4</amazon_rating>
 	</Book>
-
 	<Book>
 		<title>"Being a Dog: Following the Dog Into a World of Smell"</title>
 		<author1>"Alexandra Horowitz"</author1>
@@ -33,5 +31,4 @@
 		<isbn-10>"1476796025"</isbn-10>
 		<amazon_rating>4.5</amazon_rating>
 	</Book>
-
 </MyBooks>
