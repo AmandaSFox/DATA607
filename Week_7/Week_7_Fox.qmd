@@ -22,6 +22,7 @@ library(jsonlite)
 library(RCurl)
 library(XML)
 library(xml2)
+library(rvest)
 
 ```
 
@@ -69,5 +70,27 @@ df_xml<-xmlToDataFrame(data_xml)
 str(df_xml)
 
 df_xml
+
+```
+
+### HTML
+
+Finally, I created an HTML file using Notepad++ and my XML file for reference. Bringing it into R was conceptually similar to XML, and I used the rvest package in this case.
+
+```{r htmlfile}
+
+path_html <- "https://raw.githubusercontent.com/AmandaSFox/DATA607/main/Week_7/Books.html"
+
+#-------- Similar to XML
+data_html <- getURL(path_html) %>% 
+  htmlParse()
+
+#-------- From rvest package
+df_html<-read_html(path_html)%>%
+  html_node("table") %>%
+  html_table()
+
+str(df_html)
+df_html
 
 ```

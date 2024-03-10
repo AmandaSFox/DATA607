@@ -113,7 +113,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="introduction" class="level3">
 <h3 class="anchored" data-anchor-id="introduction">Introduction</h3>
 <p>The purpose of this week’s assignment was to practice working with JSON, XML, and HTML data in R by manually creating three copies of a simple data table, one in each of these three languages, and then importing them into R dataframes.</p>
-<p>For my content, I chose three books on how dogs perceive the world from my personal library. All three were written by canine cognition researchers and are based on the latest research into the capabilities and psychology of dogs; in particular, I have found their research into dogs’ sense of smell and how that shapes their perception and cognition to be fascinating. But what makes them some of my favorite books is that they are also well-written and engaging as casual reads, woven through with stories of dogs the authors have personally known and loved.</p>
+<p>For my content, I chose three books on how dogs perceive the world from my personal library. All three were written by canine cognition researchers and are based on the latest research into the capabilities and psychology of dogs; in particular, I have found their research into dogs’ sense of smell and how that shapes their perception and cognition to be fascinating. I have several hound mixes including a bloodhound mix with an otherworldly sense of smell; her brain is organized around smells in a way that these researchers are trying to understand. But what makes them some of my favorite books is that they are also well-written and engaging as casual reads, woven through with stories of dogs the authors have personally known and loved.</p>
 <p>For these three books, I referred to Amazon and pulled in nine variables, creating a small table in Excel as a model for my JSON, XML, and HTML code.</p>
 <p>Then I began with the libraries:</p>
 <div class="cell">
@@ -149,7 +149,16 @@ The following object is masked from 'package:tidyr':
     complete</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(XML)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(xml2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(xml2)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rvest)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'rvest'
+
+The following object is masked from 'package:readr':
+
+    guess_encoding</code></pre>
+</div>
 </div>
 </section>
 <section id="json" class="level3">
@@ -158,13 +167,13 @@ The following object is masked from 'package:tidyr':
 <p>I then brought it into R as follows. There were a number of packages available but the fromJSON function in the jsonlite package brought this particular table directly into a dataframe, whereas others required more manual transformation.</p>
 <p>I did notice that all data was brought in as character type even though I did not enclose the Amazon Rating in double quotes in my JSON file, so I used as.numeric to convert that field after creating the dataframe.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>path_json <span class="ot">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/AmandaSFox/DATA607/main/Week_7/Books.json"</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#-------- Use function from jsonlite package to create dataframe directly from JSON file in one step</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>df_json <span class="ot">&lt;-</span> jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>(path_json) </span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(df_json)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>path_json <span class="ot">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/AmandaSFox/DATA607/main/Week_7/Books.json"</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">#-------- Use function from jsonlite package to create dataframe directly from JSON file in one step</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>df_json <span class="ot">&lt;-</span> jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>(path_json) </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(df_json)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>'data.frame':   3 obs. of  9 variables:
  $ title        : chr  "The Genius of Dogs: How Dogs Are Smarter Than You Think" "Inside of a Dog: What Dogs See, Smell, and Know" "Being a Dog: Following the Dog Into a World of Smell"
@@ -177,7 +186,7 @@ The following object is masked from 'package:tidyr':
  $ isbn-10      : chr  "142180467" "1416583432" "1476796025"
  $ amazon_rating: chr  "4.5" "4.4" "4.5"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>df_json</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df_json</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                                                    title            author1
 1 The Genius of Dogs: How Dogs Are Smarter Than You Think         Brian Hare
@@ -196,16 +205,16 @@ The following object is masked from 'package:tidyr':
 <p>XML was more complicated to bring into R as there was no simple one-step function like in jsonlite, and I tried a few XML packages and functions. After experimentation, I used functions from the RCurl and the XML packages.</p>
 <p>First, I used getURL which created an “External Pointer” and xmlParse to bring in the data in a format that looked just like the original XML format (below). This seemed to be the key, and then I was able to use two more fairly intuitive xml-specific functions, xmlToList and xmlToDataFrame, to work with the data without any issue.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>path_xml <span class="ot">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/AmandaSFox/DATA607/main/Week_7/Books.xml"</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># -------- Get data with getURL and parse the XML code with xmlParse</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>data_xml <span class="ot">&lt;-</span> <span class="fu">getURL</span>(path_xml) <span class="sc">%&gt;%</span> </span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xmlParse</span>()</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co"># -------- Create dataframe from XML</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>df_xml<span class="ot">&lt;-</span><span class="fu">xmlToDataFrame</span>(data_xml) </span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(df_xml)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>path_xml <span class="ot">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/AmandaSFox/DATA607/main/Week_7/Books.xml"</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># -------- Get data with getURL and parse the XML code with xmlParse</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>data_xml <span class="ot">&lt;-</span> <span class="fu">getURL</span>(path_xml) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xmlParse</span>()</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># -------- Create dataframe from XML</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>df_xml<span class="ot">&lt;-</span><span class="fu">xmlToDataFrame</span>(data_xml) </span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(df_xml)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>'data.frame':   3 obs. of  9 variables:
  $ title        : chr  "\"The Genius of Dogs: How Dogs Are Smarter Than You Think\"" "\"Inside of a Dog: What Dogs See, Smell, and Know\"" "\"Being a Dog: Following the Dog Into a World of Smell\""
@@ -218,7 +227,7 @@ The following object is masked from 'package:tidyr':
  $ isbn-10      : chr  "\"142180467\"" "\"1416583432\"" "\"1476796025\""
  $ amazon_rating: chr  "4.5" "4.4" "4.5"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>df_xml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>df_xml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                                                      title
 1 "The Genius of Dogs: How Dogs Are Smarter Than You Think"
@@ -232,6 +241,45 @@ The following object is masked from 'package:tidyr':
 1 "Paperback"  "142180467"           4.5
 2 "Paperback" "1416583432"           4.4
 3 "Paperback" "1476796025"           4.5</code></pre>
+</div>
+</div>
+</section>
+<section id="html" class="level3">
+<h3 class="anchored" data-anchor-id="html">HTML</h3>
+<p>Finally, I created an HTML file using Notepad++ and my XML file for reference. Bringing it into R was conceptually similar to XML, and I used the rvest package in this case.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>path_html <span class="ot">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/AmandaSFox/DATA607/main/Week_7/Books.html"</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co">#-------- Similar to XML</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>data_html <span class="ot">&lt;-</span> <span class="fu">getURL</span>(path_html) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">htmlParse</span>()</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co">#-------- From rvest package</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>df_html<span class="ot">&lt;-</span><span class="fu">read_html</span>(path_html)<span class="sc">%&gt;%</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_node</span>(<span class="st">"table"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_table</span>()</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(df_html)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tibble [3 × 9] (S3: tbl_df/tbl/data.frame)
+ $ title        : chr [1:3] "\"The Genius of Dogs: How Dogs Are Smarter Than You Think\"" "\"Inside of a Dog: What Dogs See, Smell, and Know\"" "\"Being a Dog: Following the Dog Into a World of Smell\""
+ $ author1      : chr [1:3] "\"Brian Hare\"" "\"Alexandra Horowitz\"" "\"Alexandra Horowitz\""
+ $ author2      : chr [1:3] "\"Vanessa Woods\"" "\"\"" "\"\""
+ $ publisher    : chr [1:3] "\"Plume\"" "\"Scribner\"" "\"Scribner\""
+ $ edition      : chr [1:3] "\"1\"" "\"1\"" "\"1\""
+ $ date         : chr [1:3] "\"10/29/2023\"" "\"09/28/2010\"" "\"10/17/2017\""
+ $ format       : chr [1:3] "\"Paperback\"" "\"Paperback\"" "\"Paperback\""
+ $ isbn-10      : chr [1:3] "\"142180467\"" "\"1416583432\"" "\"1476796025\""
+ $ amazon_rating: chr [1:3] "\"4.5\"" "\"4.4\"" "\"4.5\""</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>df_html</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 9
+  title   author1 author2 publisher edition date  format `isbn-10` amazon_rating
+  &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt;        
+1 "\"The… "\"Bri… "\"Van… "\"Plume… "\"1\"" "\"1… "\"Pa… "\"14218… "\"4.5\""    
+2 "\"Ins… "\"Ale… "\"\""  "\"Scrib… "\"1\"" "\"0… "\"Pa… "\"14165… "\"4.4\""    
+3 "\"Bei… "\"Ale… "\"\""  "\"Scrib… "\"1\"" "\"1… "\"Pa… "\"14767… "\"4.5\""    </code></pre>
 </div>
 </div>
 </section>
