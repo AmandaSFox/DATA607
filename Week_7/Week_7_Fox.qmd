@@ -7,9 +7,9 @@ format: html
 
 ### Introduction
   
-The purpose of this week's assignment was to practice working with JSON, XML, and HTML data in R by manually creating three copies of a simple data table, one in each of these three languages, and then importing them into R dataframes. 
+The purpose of this week's assignment was to practice working with JSON, XML, and HTML data in R by manually creating three copies of a simple data table, one in each of these three languages, and then importing them into R dataframes. As this was my first experience with any of these languages, it was a challenging but beneficial exercise.
 
-For my content, I chose three books on how dogs perceive the world from my personal library. All three were written by canine cognition researchers and are based on the latest research into the capabilities and psychology of dogs; in particular, I have found their research into dogs' sense of smell and how that shapes their perception and cognition to be fascinating. I have several hound mixes including a bloodhound mix with an otherworldly sense of smell; her brain is organized around smells in a way that these researchers are trying to understand. But what makes them some of my favorite books is that they are also well-written and engaging as casual reads, woven through with stories of dogs the authors have personally known and loved.
+For my content, I chose three books on how dogs perceive the world. All three were written by canine cognition researchers and are based on their research into the capabilities and psychology of dogs; in particular, I have enjoyed their descriptions of dogs' sense of smell and how that shapes their perception and cognition (my family has several dogs including a young bloodhound mix with an otherworldly sense of smell). They are well-written and engaging casual reads, woven through with stories of dogs the authors have personally known and loved, which makes them some of my favorites.
 
 For these three books, I referred to Amazon and pulled in nine variables, creating a small table in Excel as a model for my JSON, XML, and HTML code.
 
@@ -28,11 +28,11 @@ library(rvest)
 
 ### JSON
 
-I began with JSON and used Notepad++ to create a file: https://raw.githubusercontent.com/AmandaSFox/DATA607/main/Week_7/Books.json
+First I used Notepad++ to create a JSON file with my Excel table as a reference: https://raw.githubusercontent.com/AmandaSFox/DATA607/main/Week_7/Books.json
 
-I then brought it into R as follows. There were a number of packages available but the fromJSON function in the jsonlite package brought this particular table directly into a dataframe, whereas others required more manual transformation.
+Then I brought it into R as follows. There were a number of packages available but the fromJSON function in the jsonlite package brought this particular table directly into a dataframe in a single step, whereas others required a few more steps and/or transformations.
 
-I did notice that all data was brought in as character type even though I did not enclose the Amazon Rating in double quotes in my JSON file, so I used as.numeric to convert that field after creating the dataframe.
+I did notice that R brought in all data elements as character type, so depending on the desired analysis, one might need to convert some numeric or date fields before using.
 
 ```{r jsonfile}
 
@@ -49,16 +49,17 @@ df_json
 ```
 ### XML
 
-To create the same data table in XML, I used Notepad++ again: https://raw.githubusercontent.com/AmandaSFox/DATA607/main/Week_7/Books.xml
+To create the same data table in XML, I used Notepad++ again: https://raw.githubusercontent.com/AmandaSFox/DATA607/main/Week_7/Books2.xml
 
-XML was more complicated to bring into R as there was no simple one-step function like in jsonlite, and I tried a few XML packages and functions. After experimentation, I used functions from the RCurl and the XML packages.
+XML was more complicated to bring into R as there was no simple one-step function like jsonlite provided above, and I tried a few XML packages and functions. After experimentation, I used functions from the RCurl and the XML packages.
 
-First, I used getURL which created an "External Pointer" and xmlParse to bring in the data in a format that looked just like the original XML format (below). This seemed to be the key, and then I was able to use two more fairly intuitive xml-specific functions, xmlToList and xmlToDataFrame, to work with the data without any issue.
+First, I used getURL which created an "External Pointer" and xmlParse to bring in the data in a format that looked just like the original XML format (below). This two-step process seemed to be the key, and then I was able to use to some intuitive xml-specific functions like xmlToList and xmlToDataFrame to work with the data without any issue.
 
+As happened with the JSON file, R brought in all data elements from my XML file as character type. 
 
 ```{r xmlfile}
 
-path_xml <- "https://raw.githubusercontent.com/AmandaSFox/DATA607/main/Week_7/Books.xml"
+path_xml <- "https://raw.githubusercontent.com/AmandaSFox/DATA607/main/Week_7/Books2.xml"
 
 # -------- Get data with getURL and parse the XML code with xmlParse
 data_xml <- getURL(path_xml) %>% 
@@ -75,11 +76,18 @@ df_xml
 
 ### HTML
 
-Finally, I created an HTML file using Notepad++ and my XML file for reference. Bringing it into R was conceptually similar to XML, and I used the rvest package in this case.
+Finally, I created an HTML file using Notepad++ and my XML file for reference: 
+https://raw.githubusercontent.com/AmandaSFox/DATA607/main/Week_7/Books2.html
+
+Bringing it into R was conceptually similar to XML, and I used the rvest package in this case.
+
+Unlike the XML or JSON import processes, the HTML import process coerced all fields with numeric values to int or num (but left dates as chr). In the case of Amazon ratings, this is appropriate; in the case of ISBN numbers, I would probably use double quotes in HTML or otherwise try to force R to consider it a character field so as not to lose any leading zeroes or cause issues with  joins to other tables. 
+
+Also unlike the JSON- and XML-based dataframes, the HTML-based dataframe was the only one where the nulls were not populated with NA. 
 
 ```{r htmlfile}
 
-path_html <- "https://raw.githubusercontent.com/AmandaSFox/DATA607/main/Week_7/Books.html"
+path_html <- "https://raw.githubusercontent.com/AmandaSFox/DATA607/main/Week_7/Books2.html"
 
 #-------- Similar to XML
 data_html <- getURL(path_html) %>% 
@@ -94,3 +102,5 @@ str(df_html)
 df_html
 
 ```
+
+In the end, the JSON and XML dataframes were identical, while the HTML dataframe did not have NAs in the null data elements and the numeric fields were all forced to num or int by default.
