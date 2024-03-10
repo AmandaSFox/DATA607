@@ -1,4 +1,4 @@
-
+<?xml version="1.0"?>
 <Books>
 	<title>"The Genius of Dogs: How Dogs Are Smarter Than You Think"</title>
 	<author1>"Brian Hare"</author1>
@@ -9,6 +9,8 @@
 	<format>"Paperback"</format>
 	<isbn-10>"142180467"</isbn-10>
 	<amazon_rating>4.5</amazon_rating>
+</Books>
+<Books>
 	<title>"Inside of a Dog: What Dogs See, Smell, and Know"</title>
 	<author1>"Alexandra Horowitz"</author1>
 	<publisher>"Scribner"</publisher>
@@ -17,6 +19,8 @@
 	<format>"Paperback"</format>
 	<isbn-10>"1416583432"</isbn-10>
 	<amazon_rating>4.4</amazon_rating>
+</Books>
+<Books>
 	<title>"Being a Dog: Following the Dog Into a World of Smell"</title>
 	<author1>"Alexandra Horowitz"</author1>
 	<publisher>"Scribner"</publisher>
