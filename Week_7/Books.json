@@ -1,31 +1,28 @@
-{
-"book1":
+[
 	{
 		"title": "The Genius of Dogs: How Dogs Are Smarter Than You Think",
-		"author": 
-			["Brian Hare", "Vanessa Woods"],
+		"author1": "Brian Hare",
+		"author2": "Vanessa Woods",
 		"publisher": "Plume",
 		"edition": "1",
 		"date": "10/29/2023",
 		"format": "Paperback",
 		"isbn-10": "142180467",
 		"amazon_rating": "4.5"
-	}
-"book2":
+	},
 	{
 		"title": "Inside of a Dog: What Dogs See, Smell, and Know",
-		"author": "Alexandra Horowitz",
+		"author1": "Alexandra Horowitz",
 		"publisher": "Scribner",
 		"edition": "1",
 		"date": "09/28/2010",
 		"format": "Paperback",
 		"isbn-10": "1416583432",
 		"amazon_rating": "4.4"
-	}
-"book3":
+	},
 	{
 		"title": "Being a Dog: Following the Dog Into a World of Smell",
-		"author": "Alexandra Horowitz",
+		"author1": "Alexandra Horowitz",
 		"publisher": "Scribner",
 		"edition": "1",
 		"date": "10/17/2017",
@@ -33,5 +30,4 @@
 		"isbn-10": "1476796025",
 		"amazon_rating": "4.5"
 	}
-
-}
+]
