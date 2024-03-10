@@ -1,0 +1,73 @@
+---
+title: "Week_7_Fox"
+author: "Amanda Fox"
+date: 3/10/2024
+format: html
+---
+
+### Introduction
+  
+The purpose of this week's assignment was to practice working with JSON, XML, and HTML data in R by manually creating three copies of a simple data table, one in each of these three languages, and then importing them into R dataframes. 
+
+For my content, I chose three books on how dogs perceive the world from my personal library. All three were written by canine cognition researchers and are based on the latest research into the capabilities and psychology of dogs; in particular, I have found their research into dogs' sense of smell and how that shapes their perception and cognition to be fascinating. I have several hound mixes including a bloodhound mix with an otherworldly sense of smell; her brain is organized around smells in a way that these researchers are trying to understand. But what makes them some of my favorite books is that they are also well-written and engaging as casual reads, woven through with stories of dogs the authors have personally known and loved.
+
+For these three books, I referred to Amazon and pulled in nine variables, creating a small table in Excel as a model for my JSON, XML, and HTML code.
+
+Then I began with the libraries:
+
+```{r libraries}
+
+library(tidyverse)
+library(jsonlite)
+library(RCurl)
+library(XML)
+library(xml2)
+
+```
+
+### JSON
+
+I began with JSON and used Notepad++ to create a file: https://raw.githubusercontent.com/AmandaSFox/DATA607/main/Week_7/Books.json
+
+I then brought it into R as follows. There were a number of packages available but the fromJSON function in the jsonlite package brought this particular table directly into a dataframe, whereas others required more manual transformation.
+
+I did notice that all data was brought in as character type even though I did not enclose the Amazon Rating in double quotes in my JSON file, so I used as.numeric to convert that field after creating the dataframe.
+
+```{r jsonfile}
+
+path_json <- "https://raw.githubusercontent.com/AmandaSFox/DATA607/main/Week_7/Books.json"
+
+#-------- Use function from jsonlite package to create dataframe directly from JSON file in one step
+
+df_json <- jsonlite::fromJSON(path_json) 
+
+str(df_json)
+
+df_json
+
+```
+### XML
+
+To create the same data table in XML, I used Notepad++ again: https://raw.githubusercontent.com/AmandaSFox/DATA607/main/Week_7/Books.xml
+
+XML was more complicated to bring into R as there was no simple one-step function like in jsonlite, and I tried a few XML packages and functions. After experimentation, I used functions from the RCurl and the XML packages.
+
+First, I used getURL which created an "External Pointer" and xmlParse to bring in the data in a format that looked just like the original XML format (below). This seemed to be the key, and then I was able to use two more fairly intuitive xml-specific functions, xmlToList and xmlToDataFrame, to work with the data without any issue.
+
+
+```{r xmlfile}
+
+path_xml <- "https://raw.githubusercontent.com/AmandaSFox/DATA607/main/Week_7/Books.xml"
+
+# -------- Get data with getURL and parse the XML code with xmlParse
+data_xml <- getURL(path_xml) %>% 
+  xmlParse()
+
+# -------- Create dataframe from XML
+df_xml<-xmlToDataFrame(data_xml) 
+
+str(df_xml)
+
+df_xml
+
+```
