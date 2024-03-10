@@ -73,6 +73,10 @@ test <- df_tidy_wide %>%
   summarize(sum(tot_whole), sum(tot_low_skim_all), sum(tot_other), sum(tot_consumed_on_site),
             sum(tot_bev_avail), sum(tot_bev_sales)
             )
+
+head(df_tidy_wide)
+
+
 ```
 
 This resulting table was clean and, with one observation per row (year), it was also tidy for analyses such as trends by year with % totals and other comparisons across categories (see tibbles in analysis below). 
@@ -85,6 +89,8 @@ df_tidy <- df_tidy_wide %>%
                names_to = "category",
                values_to = "gallons"
                )
+df_tidy
+
 ```
 
 

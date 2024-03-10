@@ -53,6 +53,8 @@ df_tidy <- filter(df, Values == "Weighted Count") %>%
                ) %>% 
   filter(!(state %in% c("Grand Total","Overall")))
 
+head(df_tidy)
+
 ```
 
 Note that in the above, one observation = one pair of state + response type. This tidy format will be used later for stacked bar charts grouped by those two variables.
@@ -66,6 +68,8 @@ I also created a second, wider tidy dataframe where one observation = one state.
 
 df_tidy_wide <- pivot_wider(df_tidy, names_from = response, values_from = count) %>% 
   mutate(`% Misused` = `1 - Misused within the past year`/Overall) 
+
+df_tidy_wide[,2:4]
 
 ```
 
