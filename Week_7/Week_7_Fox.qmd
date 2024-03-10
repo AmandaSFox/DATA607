@@ -9,7 +9,7 @@ format: html
   
 The purpose of this week's assignment was to practice working with JSON, XML, and HTML data in R by manually creating three copies of a simple data table, one in each of these three languages, and then importing them into R dataframes. As this was my first experience with any of these languages, it was a challenging but beneficial exercise.
 
-For my content, I chose three books on how dogs perceive the world. All three were written by canine cognition researchers and are based on their research into the capabilities and psychology of dogs; in particular, I have enjoyed their descriptions of dogs' sense of smell and how that shapes their perception and cognition (my family has several dogs including a young bloodhound mix with an otherworldly sense of smell). They are well-written and engaging casual reads, woven through with stories of dogs the authors have personally known and loved, which makes them some of my favorites.
+For my content, I chose three books on how dogs perceive the world. All three were written by canine cognition researchers at Barnard College and Duke University and are based on their years of research into the capabilities and psychology of dogs. In particular, I am fascinated by their descriptions of dogs' sense of smell and how that shapes their perception and cognition (disclaimer: we have several dogs at home including a young bloodhound mix with an otherworldly sense of smell). They are well-written and engaging casual reads, woven through with stories of dogs the authors have personally known and loved, which makes them some of my favorites.
 
 For these three books, I referred to Amazon and pulled in nine variables, creating a small table in Excel as a model for my JSON, XML, and HTML code.
 
