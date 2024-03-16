@@ -1,0 +1,712 @@
+search_pos_id	search_pos_desc
+1	Agricultural-Research Engineer
+2	Set-Key Driver
+3	Technical Support Specialist
+4	Architect
+5	Maintenance Data Analyst
+6	Data Base Administrator
+7	Manager Reports Analysis
+8	Budget Officer
+9	Test Fixture Designer
+10	Management Analyst
+11	Actuary
+12	Floor Worker
+13	Value Engineer
+14	Data Entry Clerk
+15	Die-Maker Apprentice
+16	Manager Department
+17	Data Communications Analyst
+18	Loading-Machine Tool-Setter
+19	Systems Analyst
+20	Folder
+21	Computer Programmer
+22	Electrical-Research Engineer
+23	Biologist
+24	Mathematician
+25	Geophysicist
+26	Copy Holder
+27	Computer Operator
+28	Supervisor Files
+29	Electronics-Test Engineer
+30	Director Translation
+31	Chemist
+32	Manager Forms Analysis
+33	Miller Supervisor
+34	Data Communications Technician
+35	Recruiter
+36	Computer Security Specialist
+37	Electrical-Installation Supervisor
+38	Supervisor Pipelines
+39	Configuration Management Analyst
+40	Tumor Registrar
+41	Superintendent Local
+42	Computer Systems Hardware Analyst
+43	Job Analyst
+44	Medical Technologist
+45	Cytotechnologist
+46	Model Artists'
+47	Sales Representative
+48	Model
+49	Aquatic Biologist
+50	Operations-Research Analyst
+51	Cargo Checker
+52	Investigator
+53	Customer-Service Clerk
+54	Butler
+55	Manager Records Analysis
+56	Tool-And-Die Supervisor
+57	Accountant Systems
+58	Steward/Stewardess
+59	Customer-Equipment Engineer
+60	Chief Engineer
+61	Biochemist
+62	Take-Up Operator
+63	Baker
+64	Microbiologist
+65	Instructor
+66	Vendor
+67	Color Developer
+68	Programmer Engineering And Scientific
+69	Engine-Testing Supervisor
+70	Director Education
+71	Charter
+72	Supervisor Instrument Maintenance
+73	Electrical Supervisor
+74	Travel Agent
+75	Director Social
+76	Director Stage
+77	Manager Stage
+78	Principal
+79	Consultant Education
+80	Supervisor Mapping
+81	Tool Grinder Ii
+82	Scanner
+83	Supervisor
+84	Solutions Operator
+85	Environmental Analyst
+86	Treating Engineer
+87	Record Clerk
+88	Assembler
+89	Clerk General
+90	Mechanical-Design Engineer Facilities
+91	Director Educational Program
+92	Developer
+93	Mechanical Research Engineer
+94	Modeler
+95	Maintenance Mechanic
+96	Extra
+97	Economist
+98	Interior Designer
+99	Training Technician
+100	Program Coordinator
+101	Second
+102	Engineer Of System Development
+103	Laboratory Technician
+104	Color Tester
+105	Continuity Writer
+106	Manager Labor Relations
+107	Documentation Engineer
+108	Stand-In
+109	Animal Scientist
+110	Counter Hand
+111	Reader
+112	Creative Director
+113	Membership Solicitor
+114	Information Scientist
+115	Layer
+116	Director Research
+117	Port Engineer
+118	Mining Engineer
+119	Art Director
+120	Color Maker
+121	Programmer-Analyst
+122	Research Assistant I
+123	Sales Agent Business Services
+124	Cement Mason
+125	Traffic Clerk
+126	Political Scientist
+127	Chief Bank Examiner
+128	Blender
+129	Instructor Modeling
+130	Nurse Consultant
+131	Guide
+132	Starter
+133	Range Manager
+134	Former Hand
+135	Metrologist
+136	Storekeeper
+137	Cost-And-Sales-Record Supervisor
+138	Supervisor Matrix
+139	Tool Grinder I
+140	Supervisor Channel Process
+141	Research Subject
+142	Phlebotomist
+143	Manager Customer Service
+144	Intelligence Research Specialist
+145	Interpreter
+146	Supervisor Customer-Complaint Service
+147	Audiovisual Production Specialist
+148	Reporter
+149	Processor
+150	Manager Display
+151	Pastoral Assistant
+152	Teller
+153	Director Records Management
+154	Insurance Attorney
+155	Applications Engineer Manufacturing
+156	Manager Regulated Program
+157	Change Person
+158	Manager Employee Welfare
+159	Manager Employment
+160	Child Monitor
+161	Card Player
+162	Chief Computer Programmer
+163	Tool Designer
+164	News Assistant
+165	Actor
+166	Top Former
+167	Liaison Engineer
+168	Nuclear Medicine Technologist
+169	Auditor Internal
+170	Manager Internal Security
+171	Faculty Member College Or University
+172	Page
+173	Ceramic Engineer
+174	Substance Abuse Counselor
+175	Nurse Office
+176	Ophthalmologist
+177	Controller
+178	Electrician Supervisor
+179	Operating Engineer
+180	Credit Analyst
+181	Supervisor Identification And Communications
+182	Airport Engineer
+183	Software Engineer
+184	Billing Clerk
+185	Building Consultant
+186	Finer
+187	Supervisor Loading And Unloading
+188	Tier
+189	Double
+190	Nurse Anesthetist
+191	Safety Engineer
+192	Retirement Officer
+193	Supervisor Chemical
+194	Special Effects Specialist
+195	Complaint Clerk
+196	Assembler Unit
+197	Stock Fitter
+198	Reliability Engineer
+199	Process Server
+200	Supervisor Screen Making
+201	Laboratory Clerk
+202	Fuller
+203	Laboratory-Equipment Installer
+204	Manager Advertising
+205	Supervisor Trust Accounts
+206	Electrician Office
+207	Standards Engineer
+208	Supervisor Cutting Department
+209	Manager Camp
+210	Medical-Laboratory Technician
+211	Research Associate
+212	Chemical Laboratory Technician
+213	Collection Clerk
+214	Director Technical
+215	Buffer
+216	Quality Assurance Monitor
+217	Production Engineer
+218	Graduate Assistant
+219	Illustrator
+220	Production Planner
+221	Inspector
+222	Manager Quality Control
+223	Gauge Operator
+224	Elevator Constructor
+225	Dispatcher Service
+226	Manager Compensation
+227	Mortgage Clerk
+228	Assistant Construction Superintendent
+229	Manager Contracts
+230	Supervisor Education
+231	Detective
+232	Instructor Extension Work
+233	Contact Clerk
+234	Breaker
+235	Public-Safety Officer
+236	Manufacturing Engineer
+237	Manager Benefits
+238	Acrobat
+239	Immigration Inspector
+240	Survival Specialist
+241	Chief Engineer Research
+242	Set Designer
+243	Transportation Agent
+244	Budget Analyst
+245	Router
+246	Materials Engineer
+247	Technical Coordinator
+248	Boiler
+249	Welding Engineer
+250	Pressure Supervisor
+251	Case Fitter
+252	Routing Clerk
+253	Laboratory Supervisor
+254	Transportation Engineer
+255	Anesthesiologist
+256	Stenographer
+257	Professional Athlete
+258	Hearing Officer
+259	Lead Former
+260	Supervisor Cleaning
+261	Inspector General
+262	Orchestrator
+263	Test Worker
+264	Color Expert
+265	Structural Engineer
+266	Air Analyst
+267	Scheduler
+268	Ticket Broker
+269	Commercial Engineer
+270	Psychologist School
+271	Rehabilitation Clerk
+272	Container Coordinator
+273	Turner
+274	Collator
+275	Police Aide
+276	Supervisor Refining
+277	River
+278	Quality Assurance Analyst
+279	Critic
+280	Railroad Engineer
+281	Packer
+282	Rate Supervisor
+283	Nurse Staff Community Health
+284	Test Technician
+285	Automated Equipment Engineer-Technician
+286	Facilities Planner
+287	Cheese Grader
+288	Program Assistant
+289	Geologist
+290	Translator
+291	Field Service Engineer
+292	Supervisor Inspection
+293	Mechanical Engineer
+294	Technical Operator
+295	Assembly Operator
+296	Collector
+297	Neurologist
+298	Electrician Supervisor Substation
+299	Test Equipment Mechanic
+300	Handler
+301	Medical-Service Technician
+302	Job Development Specialist
+303	Designer
+304	Deck Engineer
+305	Director Fundraising
+306	Chemist Food
+307	Arbitrator
+308	Athletic Trainer
+309	Contract Administrator
+310	Editor Department
+311	Director School Of Nursing
+312	Archeologist
+313	Protective Officer
+314	Car Inspector
+315	Tutor
+316	Tool-Grinder Operator
+317	Director Of Religious Activities
+318	Selector
+319	Leader Tier
+320	Driver
+321	Tax Attorney
+322	Exercise Physiologist
+323	Load-Out Supervisor
+324	Tax Clerk
+325	Manager Pool
+326	Cardiologist
+327	Field Cashier
+328	Center-Machine Operator
+329	Superintendent Service
+330	Supervisor Telephone Information
+331	Ordnance Engineer
+332	Driver Supervisor
+333	Attendance Officer
+334	Dispatcher
+335	Examiner
+336	Registrar College Or University
+337	Systems Programmer
+338	Supervisor Drawing
+339	Instructor Business Education
+340	Judge
+341	Reviewer
+342	Auditor
+343	Electrical Technician
+344	Abstractor
+345	Claim Examiner
+346	Accountant
+347	Equal-Opportunity Representative
+348	Fitter
+349	Fitter I
+350	Bar Attendant
+351	Bridge Inspector
+352	Credit Counselor
+353	Cook
+354	Dancer
+355	Lawyer
+356	Aeronautical-Design Engineer
+357	Hands Assembler
+358	Civil Engineering Technician
+359	Tanker
+360	Career-Guidance Technician
+361	Guide Travel
+362	Assembler Product
+363	Account Executive
+364	Customer Service Representative
+365	Credit Authorizer
+366	Development Mechanic
+367	Documentation Supervisor
+368	Emergency Medical Services Coordinator
+369	Industrial Engineer
+370	Contract Specialist
+371	Manager Education And Training
+372	Producer
+373	Procurement Clerk
+374	Printer
+375	Installer
+376	Pharmacist
+377	Pathologist
+378	Cardiac Monitor Technician
+379	Supervisor Electronics Systems Maintenance
+380	Supervisor Line
+381	Chart Clerk
+382	Chemical Engineer
+383	Central-Office Equipment Engineer
+384	Certified Medication Technician
+385	Assembly Technician
+386	Assistant Principal
+387	Civil Engineer
+388	Cleaner
+389	File Clerk Ii
+390	Field Contractor
+391	Companion
+392	Field Service Technician
+393	Accountant Cost
+394	Appointment Clerk
+395	Archivist
+396	Auxiliary-Equipment Operator
+397	Headwaiter/Headwaitress
+398	Balance Assembler
+399	School Secretary
+400	Electrician
+401	Bouncer
+402	Chief Librarian Branch Or Department
+403	Clinical Therapist
+404	Field Representative
+405	Controls Designer
+406	Fire-Protection Engineering Technician
+407	Dialysis Technician
+408	Electronics Worker
+409	Editorial Assistant
+410	Electrical Inspector
+411	Distribution-Field Engineer
+412	Electrical Engineer
+413	Electrical-Design Engineer
+414	Electrical Test Engineer
+415	Floral Designer
+416	Maintainability Engineer
+417	Finishing Inspector
+418	Head Coach
+419	Department Head College Or University
+420	Counselor
+421	Manager Personnel
+422	Fountain Server
+423	Drummer
+424	Equipment Cleaner
+425	Guard Security
+426	Gate Guard
+427	Grant Coordinator
+428	Group-Sales Representative
+429	Instructor Physical
+430	Production Assistant
+431	Librarian
+432	Circulation-Sales Representative
+433	Manager Sales
+434	Accounting Clerk
+435	Administrative Clerk
+436	Administrative Assistant
+437	Janitor
+438	Kitchen Supervisor
+439	Hair Stylist
+440	Part Maker
+441	Check Cashier
+442	Chef
+443	Bookmobile Driver
+444	Can Inspector
+445	Christian Science Nurse
+446	Child-Care Attendant School
+447	Barber
+448	Audit Clerk
+449	Magazine Supervisor
+450	Credit-Card Clerk
+451	Customs Inspector
+452	Customer Services Coordinator
+453	Dump-Truck Driver
+454	Educational Resource Coordinator
+455	Electromechanical Technician
+456	Emergency Medical Technician
+457	Engineering-Document-Control Clerk
+458	Air-Conditioning Mechanic
+459	Historic-Site Administrator
+460	Host/Hostess
+461	Medical Assistant
+462	Medical-Record Clerk
+463	Merchandise Distributor
+464	Music Copyist
+465	Nurse Assistant
+466	Nurse Practitioner
+467	Nurse Infection Control
+468	Orderly
+469	Pharmacy Technician
+470	Planetarium Technician
+471	Preparation Supervisor
+472	Production Helper
+473	Hydraulic Engineer
+474	Instrument Technician
+475	Librarian Special Collections
+476	Mail Clerk
+477	Maintenance Supervisor
+478	Meter Reader
+479	Pipeline Construction Inspector
+480	Teacher
+481	Public Health Educator
+482	Booking Supervisor
+483	Supervisor Filtration
+484	Marshal
+485	Secretary
+486	Biochemistry Technologist
+487	Horticulturist
+488	Blood-Donor Recruiter
+489	Investment Analyst
+490	Press Feeder
+491	Dye-House Supervisor
+492	Supervisor Delivery Department
+493	Intelligence Specialist
+494	Cooper
+495	Custom Tailor
+496	Computer Security Coordinator
+497	Feeder
+498	Control Clerk
+499	Communications Consultant
+500	Utilization Engineer
+501	Production Supervisor
+502	Protection Engineer
+503	Industrial Hygienist
+504	Supervisor Laboratory
+505	Procurement Engineer
+506	Supervisor Vendor Quality
+507	Quality Assurance Coordinator
+508	Director Extension Work
+509	Supervisor Landscape
+510	Supervisor V
+511	Reports Analyst
+512	Supervisor Shop
+513	Quality-Control Coordinator
+514	Supervisor Coffee
+515	Art Therapist
+516	Exhibit Builder
+517	Bartender
+518	Sales-Promotion Representative
+519	Mathematical Technician
+520	Electrician Research
+521	Industrial-Health Engineer
+522	Supervisor Model Making
+523	Loader
+524	Passenger Representative
+525	Form Builder
+526	Safety Manager
+527	Nurse Supervisor
+528	Instructor Sports
+529	Superintendent Track
+530	Logistics Engineer
+531	Utility Worker
+532	Complaint Evaluation Supervisor
+533	Plant Pathologist
+534	Radiologist
+535	Equal Opportunity Officer
+536	Supervisor Paper Testing
+537	Trust Operations Assistant
+538	Supervisor Maintenance
+539	Handle Assembler
+540	Director Television
+541	Legal Investigator
+542	Guide Plant
+543	Registration Clerk
+544	Gas Inspector
+545	Photographic Engineer
+546	Psychiatric Aide
+547	Technical Training Coordinator
+548	Registered Representative
+549	Home-Service Director
+550	Training Representative
+551	Conservation Technician
+552	Health Officer Field
+553	Pattern-Shop Supervisor
+554	User Support Analyst
+555	Extension Clerk
+556	Customer-Facilities Supervisor
+557	Quality Assurance Supervisor
+558	Supervisor Bonding
+559	Public-Relations Representative
+560	Director Instructional Material
+561	Auditor Data Processing
+562	Biomedical Equipment Technician
+563	Frame Hand
+564	Director Athletic
+565	Superintendent Sales
+566	Control Operator
+567	Supervisor Preparation Department
+568	Sales Agent Insurance
+569	Electronics Engineer
+570	Gate Agent
+571	Supervisor Sample
+572	Machine Operator General
+573	Osteopathic Physician
+574	Usher
+575	Sales Representative Financial Services
+576	Historian
+577	Lead Handler
+578	Supervisor Area
+579	Carpenter
+580	Reproduction Technician
+581	Guide Establishment
+582	Pager
+583	Cartoonist
+584	Property-Assessment Monitor
+585	Radiologic Technologist
+586	Receptionist
+587	Progress Clerk
+588	Central-Office Installer
+589	Conductor
+590	Space Scheduler
+591	Sous Chef
+592	Landscape Specialist
+593	Test Engineer Mechanical Equipment
+594	Service Supervisor Ii
+595	Packager Head
+596	Test Driver I
+597	Director Media Marketing
+598	Manager Procurement Services
+599	Operations And Intelligence Assistant
+600	Material Coordinator
+601	Bricklayer Supervisor
+602	Title Supervisor
+603	Manager Promotion
+604	Board Attendant
+605	Media Director
+606	Caption Writer
+607	Lock Maintenance Supervisor
+608	Mechanical-Test Technician
+609	Instructor Driving
+610	Service Clerk
+611	Infantry Unit Leader
+612	Currency Counter
+613	Deliverer Outside
+614	Screen Operator
+615	Supervisor Lubrication
+616	Model Builder
+617	Marine Engineer
+618	Stationary Engineer
+619	Quality-Control Clerk
+620	Lawyer Criminal
+621	Personal Shopper
+622	Building Cleaner
+623	Financial Planner
+624	Quality Control Engineer
+625	Flyer
+626	Instrument-Shop Supervisor
+627	Material Expediter
+628	Draper
+629	Box Printer
+630	Occupational-Safety-And-Health Inspector
+631	Police-Academy Instructor
+632	Entomologist
+633	Accountant Property
+634	Coach Driver
+635	Garbage Collector
+636	Biomedical Engineer
+637	Soil-Conservation Technician
+638	Family Practitioner
+639	Power-Transmission Engineer
+640	Chemist Instrumentation
+641	Quality-Control Checker
+642	Reserves Clerk
+643	Supervisor Grading
+644	Underwriting Clerk
+645	Production Coordinator
+646	Plumber
+647	Pattern Hand
+648	Credit Clerk
+649	Service Representative
+650	Inspector Tool
+651	Supervisor Line Department
+652	Laboratory Manager
+653	Scout
+654	Powered Bridge Specialist
+655	Physical-Integration Practitioner
+656	Supervisor Garage
+657	Police Officer Ii
+658	Electrician Substation
+659	Customs Import Specialist
+660	Title Clerk
+661	Fire Inspector
+662	Dairy Scientist
+663	Service Supervisor I
+664	Supervisor Logging
+665	Linen-Room Attendant
+666	Supervisor Cell-Efficiency
+667	Supervisor Agency Appointments
+668	Cut-In Worker
+669	Tester
+670	Electrical Engineer Power System
+671	Buyer
+672	Records-Management Analyst
+673	Rolling-Mill Operator
+674	Conduit Mechanic
+675	Sorting Supervisor
+676	Camera Operator
+677	Supervisor Tower
+678	Hazardous-Waste Management Specialist
+679	Manager Advertising Agency
+680	Landscape Architect
+681	Supervisor Payroll
+682	Cutter I
+683	Financial-Aids Officer
+684	Claim Adjuster
+685	Dispatcher Security Guard
+686	Vocational Rehabilitation Consultant
+687	Shop Supervisor
+688	Supervisor Fitting
+689	Bakery Supervisor
+690	Psychic Reader
+691	Supervisor Lending Activities
+692	Core Loader
+693	Supervisor Properties
+694	Radiation-Protection Engineer
+695	Cutter
+696	Supervisor Processing
+697	Certification And Selection Specialist
+698	Screen Cleaner
+699	Escort
+700	Psychologist Counseling
+701	Millwright Apprentice
+702	Calibration Laboratory Technician
+703	Sanitary Engineer
+704	Baker Helper
+705	Recreation-Facility Attendant
+706	Nurse Head
+707	Real-Estate Clerk
+708	Registrar
+709	Policy-Change Clerk
+710	Plant Supervisor
+711	Tourist-Information Assistant
