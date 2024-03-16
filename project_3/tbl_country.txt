@@ -1,5 +1,0 @@
-country_id	country_desc
-1	United States
-2	United Kingdom
-3	Canada
-4	Australia

@@ -1,14 +1,17 @@
-# To create a table of unique skills and assign IDs. For use as lookup table in Project_3 schema.
-# Original table listed skills by job_posting_ID as VERY long strings of skills separated by commas
+# This script contains code to do the following:
+# 1. Import two raw files from github repo (df_job_posting_raw and df_job_skills_raw)
+# 2. Create ten tables to normalize the original two
+# 3. Export to .csv for import into SQL (see SQL script)
 
-# This codes parses that list of skills for each posting and creates a normalized table 
-# to be linked back to job posting by a new skill_id key
+
 
 library (tidyverse)
 library (dplyr)
 
 
-# Import raw postings from github (note - these were lightly cleaned  for rogue commas and invalid characters)
+#-------- Import raw postings from github and transform to include necessary columns & good names
+#-------- note - these were lightly cleaned  for rogue commas and invalid characters before import here
+
 
 df_job_posting_raw <- read_csv("https://raw.githubusercontent.com/unsecuredAMRAP/607pr3/main/raw_job_postings.csv")
 
@@ -261,3 +264,5 @@ write.csv(df_search_pos,"c:/users/amand/Git_Projects/DATA607/Project_3/tbl_searc
 write.csv(df_title,"c:/users/amand/Git_Projects/DATA607/Project_3/tbl_title.csv", row.names=FALSE)
 write.csv(df_job_posting_skills,"c:/users/amand/Git_Projects/DATA607/Project_3/tbl_job_posting_skills.csv", row.names=FALSE)
 write.csv(df_skills_master,"c:/users/amand/Git_Projects/DATA607/Project_3/tbl_skills_master.csv", row.names=FALSE)
+
+write.csv(df_skills_melt,"c:/users/amand/Git_Projects/DATA607/Project_3/tbl_skills_melt.csv", row.names=FALSE)

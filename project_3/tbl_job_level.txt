@@ -1,3 +1,0 @@
-job_level_id	job_level_desc
-1	Mid senior
-2	Associate
