@@ -1,0 +1,43 @@
+---
+title: "NYT_Most_Viewed"
+author: "Amanda Fox"
+date: 3/22/2024
+format: html
+---
+
+## Introduction
+
+The NYT provides a number of APIs to access data. In this example, I used the jsonlite package to pull the top 20 most viewed articles in the last seven days and created a dataframe in R.
+
+I began with the libraries:
+
+``` {r libraries}
+
+library(tidyverse)
+library(jsonlite)
+```
+
+The site provided very clear documentation and instructions to get started. First I obtained an API key, and then I located the data I wanted from the "Most Popular" API and followed their examples for syntax. Then I simply used the fromJSON function to pull and flatten the data, converting it to a dataframe:
+
+``` {r getdata}
+
+myurl <- "https://api.nytimes.com/svc/mostpopular/v2/viewed/7.json?api-key=jnf9jCrYLAyPORPG8zeeDNBhc0rbvNbu" 
+
+df_mostviewed <- fromJSON(myurl,flatten = TRUE) %>% 
+  data.frame()
+
+```
+
+The resulting dataframe contained clean, tidy data with one row per article. It had 25 columns with data such as date, section, subsection, title, author, and an abstract. A column of keywords ("results.adx_keywords") might be particularly useful for analysis: it contained a long delimited list of standardized categories for each article, which might be very useful to analyze articles by topic instead of searching for words in titles or abstracts. 
+
+I did see one limitation in that the query returned only 20 rows and I did not see an option to get more "top viewed" articles. It would be interesting to explore some of the other APIs like the general article searches to see what their capabilities are.
+
+In any case, the process to pull this data from an API into a dataframe was very quick and easy and appears to be a very efficient way to tap into many new data sources.
+
+``` {r viewdata}
+
+# Sample row:
+
+head(df_mostviewed,1)
+
+```
