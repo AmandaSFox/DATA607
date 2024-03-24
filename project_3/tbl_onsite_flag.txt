@@ -1,0 +1,4 @@
+onsite_flag_id	onsite_flag_desc
+1	Onsite
+2	Hybrid
+3	Remote

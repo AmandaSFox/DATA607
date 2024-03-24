@@ -1,0 +1,802 @@
+city_id	city_desc
+1	East Haven
+2	El Cerrito
+3	Middletown
+4	Lebanon
+5	McKinney
+6	East Chicago
+7	Beverly
+8	Nanticoke
+9	Avondale
+10	Redwood City
+11	Stockbridge
+12	West Covina
+13	Crookston
+14	Irvine
+15	Duluth
+16	Telford
+17	Stratford
+18	Austin
+19	Zion
+20	Lake Forest
+21	Magnolia
+22	Aurora
+23	San Leandro
+24	Slough
+25	Ferguson
+26	New York
+27	Livingston
+28	Mount Vernon
+29	Waterford
+30	Camden
+31	Arlington
+32	Derby
+33	Port Hueneme
+34	Hugo
+35	Clinton
+36	Maryland
+37	Sheffield
+38	Luton
+39	Livermore
+40	Fitzgerald
+41	West Springfield
+42	Manassas
+43	Winston-Salem
+44	Garland
+45	Lowell
+46	Mansfield
+47	Kent
+48	San Antonio
+49	Stillwater
+50	Ridgewood
+51	Macon
+52	Guilford
+53	Baytown
+54	California
+55	Minnesota
+56	Union City
+57	Alexandria
+58	Marion
+59	Columbus
+60	Santa Clara
+61	Harpers Ferry
+62	Louisville
+63	Chicago Heights
+64	Texas
+65	Crawley
+66	Nova Scotia
+67	New Kensington
+68	Springfield
+69	New Britain
+70	Bowling Green
+71	Harrisburg
+72	Odessa
+73	Kennewick
+74	Waynesboro
+75	Hayward
+76	Arizona
+77	Cincinnati
+78	Hamilton
+79	Concord
+80	New Windsor
+81	Waco
+82	North Carolina
+83	Ephrata
+84	Derry
+85	Vallejo
+86	Peoria
+87	Shelton
+88	Plains
+89	Belfast
+90	Saint Charles
+91	Ipswich
+92	Melbourne
+93	Collinsville
+94	Niles
+95	Brampton
+96	Virginia
+97	Roseville
+98	Reading
+99	Nebraska
+100	Fort Lauderdale
+101	White Plains
+102	Silver Spring
+103	East Aurora
+104	San Jose
+105	Colorado
+106	Atlanta
+107	Charles Town
+108	New Albany
+109	Etobicoke
+110	New Milford
+111	Calgary
+112	San Rafael
+113	Smyrna
+114	Flushing
+115	Winslow
+116	Georgia
+117	Malibu
+118	Great Barrington
+119	Summit
+120	Greater London
+121	Berkeley
+122	Wyandotte
+123	Laval
+124	Novato
+125	Pasadena
+126	Lawton
+127	Victoria
+128	Clarksburg
+129	Eastchester
+130	Norfolk
+131	Alabama
+132	Kansas
+133	Montrose
+134	Smith Center
+135	Rutland
+136	Montpelier
+137	Dallas
+138	Bound Brook
+139	El Reno
+140	Kansas City
+141	Michigan
+142	Oregon
+143	Norwood
+144	Los Alamos
+145	Cardiff
+146	South Carolina
+147	Corinth
+148	Wallingford
+149	River Forest
+150	Brownsville
+151	Leavenworth
+152	Longmont
+153	Seattle
+154	Kettering
+155	Corona
+156	Shelbyville
+157	Trenton
+158	Tarpon Springs
+159	North Adams
+160	South Saint Paul
+161	Tacoma
+162	Queensland
+163	Fremont
+164	East Saint Louis
+165	Boston
+166	Raleigh
+167	Greater Glasgow
+168	Des Moines
+169	Denver
+170	Fort Lee
+171	Elizabethton
+172	Boulder
+173	Montclair
+174	Redcliffe
+175	Palatine
+176	San Francisco
+177	Saint Joseph
+178	Cambridge
+179	Sarnia-Clearwater
+180	Fairfield
+181	Norristown
+182	Hershey
+183	Point Roberts
+184	Saint Paul
+185	North Chicago
+186	North York
+187	West Midlands
+188	Taunton
+189	Cohasset
+190	Temple
+191	Dunkirk
+192	La Habra
+193	Cocoa Beach
+194	Covington
+195	New Westminster
+196	Salisbury
+197	Ohio
+198	Tamworth
+199	Lafayette
+200	Staunton
+201	Lenox
+202	Richmond
+203	West Seneca
+204	Oxford
+205	Houston
+206	Ocean City
+207	Bellevue
+208	Titusville
+209	Coral Gables
+210	Mississauga
+211	Delaware
+212	Tarrytown
+213	Enterprise
+214	Missouri
+215	Fairbanks
+216	Jacksonville
+217	Idaho
+218	Esquimalt
+219	New Mexico
+220	Centralia
+221	Washington
+222	Oklahoma
+223	Louisiana
+224	Bethlehem
+225	Ottawa
+226	Palm Springs
+227	Montana
+228	Sudbury
+229	Orono
+230	Philadelphia
+231	Freeport
+232	Syracuse
+233	Montgomery
+234	Little Falls
+235	Fayetteville
+236	Pottstown
+237	Newton
+238	Bethany
+239	Brookfield
+240	Baltimore
+241	Duxbury
+242	Calumet City
+243	Winter Haven
+244	Carlisle
+245	Westfield
+246	Daly City
+247	Midwest City
+248	Tupelo
+249	Connecticut
+250	Costa Mesa
+251	Iowa
+252	Edmonton
+253	Parramatta
+254	Antioch
+255	North Hempstead
+256	Milan
+257	Belvidere
+258	Durham
+259	Glens Falls
+260	Hannibal
+261	Saginaw
+262	Arkansas
+263	North Dakota
+264	Excelsior Springs
+265	Virginia Beach
+266	Edinburgh
+267	Abington
+268	Simi Valley
+269	Blackburn
+270	Hopewell
+271	Palo Alto
+272	Windsor
+273	Bloomington
+274	Western Australia
+275	Macomb
+276	Dorval
+277	Watertown
+278	Martinez
+279	Frederick
+280	Worcester
+281	Culver City
+282	Manitoba
+283	Teesside
+284	Gastonia
+285	London
+286	Del Rio
+287	Bordentown
+288	Indianapolis
+289	Batavia
+290	Wheaton
+291	San Juan Capistrano
+292	Hillsborough
+293	Elkhart
+294	Buena Park
+295	Compton
+296	British Columbia
+297	Maidstone
+298	Phoenix
+299	Brockton
+300	Staten Island
+301	McMinnville
+302	Bowie
+303	Hopkinsville
+304	Morristown
+305	Sunbury
+306	Gloucester
+307	Holyoke
+308	Sandusky
+309	Bedford
+310	Tennessee
+311	Truro
+312	Medway Towns
+313	Rochester
+314	Enfield
+315	High Wycombe
+316	Niagara Falls
+317	Union
+318	Alameda
+319	Ada
+320	Williamsport
+321	Nahant
+322	Laurel
+323	Bridgeton
+324	Kentucky
+325	Ontario
+326	York
+327	South Australia
+328	Herrin
+329	Nevada
+330	Providence
+331	South Hampshire
+332	Haverhill
+333	Coeur dAlene
+334	Bluefield
+335	Brigham City
+336	Fort Worth
+337	Oil City
+338	Bountiful
+339	Lock Haven
+340	Hawaii
+341	East Moline
+342	East Point
+343	Salinas
+344	Cleveland Heights
+345	Naperville
+346	Aberdeen
+347	New Brunswick
+348	Defiance
+349	San Fernando
+350	Towson
+351	Hastings
+352	Newberg
+353	Tombstone
+354	Rutherford
+355	Attleboro
+356	Fitchburg
+357	Delray Beach
+358	Blairsville
+359	Park Forest
+360	Saint Marys City
+361	Bonavista
+362	Pasco
+363	Menlo Park
+364	Dedham
+365	Swindon
+366	Watts
+367	Wethersfield
+368	Doncaster
+369	Ithaca
+370	Cohoes
+371	Northampton
+372	Genoa
+373	Pomona
+374	Homestead
+375	Illinois
+376	Lynn
+377	Saint Cloud
+378	Nashville
+379	Lakeview
+380	Huntington Beach
+381	Denton
+382	Marysville
+383	Hudson
+384	Laconia
+385	Davis
+386	Thanet
+387	Halifax
+388	Decatur
+389	Beacon
+390	Alberta
+391	Braintree
+392	Pensacola
+393	Bridgeport
+394	East Greenwich
+395	Warrington
+396	Norwich
+397	Alhambra
+398	Sterling
+399	Minneapolis
+400	Appleton
+401	Barre
+402	Ch├óteauguay
+403	Chicago
+404	Basildon
+405	Indiana
+406	Swarthmore
+407	Hope
+408	Central City
+409	Babylon
+410	Chelsea
+411	Peterborough
+412	Wenatchee
+413	North Bay
+414	Monroeville
+415	Penrith
+416	Las Vegas
+417	Oneonta
+418	Greenwich
+419	Thunder Bay
+420	Wigan
+421	Basingstoke
+422	Aiken
+423	Chambly
+424	Mississippi
+425	Oak Ridge
+426	Sioux City
+427	Cap-de-la-Madeleine
+428	Warner Robins
+429	West Chester
+430	South Dakota
+431	Beaverton
+432	Bristol
+433	Chula Vista
+434	Homer
+435	Fort Walton Beach
+436	Carmel
+437	Cripple Creek
+438	Layton
+439	Hialeah
+440	Bend
+441	Council Bluffs
+442	Bethesda-Chevy Chase
+443	Findlay
+444	Sumter
+445	Brainerd
+446	Ann Arbor
+447	Clifton
+448	Saint Albert
+449	Bremerton
+450	Colorado Springs
+451	Irvington
+452	Charleston
+453	Libertyville
+454	Fairmont
+455	Canberra
+456	C├┤te-Saint-Luc
+457	Newport
+458	Amsterdam
+459	Garden Grove
+460	Long Branch
+461	Lincoln
+462	Thousand Oaks
+463	Delta
+464	Torrington
+465	Levittown
+466	Columbia
+467	Coronado
+468	Plainfield
+469	Beloeil
+470	Sausalito
+471	Granby
+472	New Hampshire
+473	Nashua
+474	Evansville
+475	Rotterdam
+476	Dennis
+477	Great Bend
+478	Cranford
+479	Catonsville
+480	Wisconsin
+481	Sydney
+482	Yellowknife
+483	Vernon
+484	Port Arthur
+485	Oshawa
+486	Andalusia
+487	Mesa
+488	Temiskaming Shores
+489	Langley
+490	Olean
+491	La Grange
+492	Sainte-Anne-de-Beaupr├⌐
+493	Hillsboro
+494	Burlington
+495	Oyster Bay
+496	Chandler
+497	Clearwater
+498	Williamstown
+499	Grand Rapids
+500	Lisle
+501	North Vancouver
+502	Australian Capital Territory
+503	Baton Rouge
+504	Hull
+505	Hollywood
+506	Sacramento
+507	Orlando
+508	Edinburg
+509	Phoenixville
+510	Adrian
+511	Scottsdale
+512	San Diego
+513	Hamden
+514	Gretna
+515	Albany
+516	Palm Beach
+517	Belleville
+518	Windham
+519	Greeley
+520	Tyneside
+521	Oceanside
+522	Tallahassee
+523	Lodi
+524	Eastport
+525	Maine
+526	Suffolk
+527	Seminole
+528	Highland Park
+529	New Glarus
+530	Canyon
+531	Santa Clarita
+532	Albuquerque
+533	North Kingstown
+534	New South Wales
+535	State College
+536	Beverly Hills
+537	Puyallup
+538	Perth
+539	New Jersey
+540	Deception Bay
+541	Sarasota
+542	Greensboro
+543	Oak Park
+544	Sun Valley
+545	Williamson
+546	Milwaukee
+547	Sparks
+548	Tucson
+549	Glendale
+550	Stoke-on-Trent
+551	West Des Moines
+552	Bayonne
+553	Xenia
+554	Pompano Beach
+555	Allentown
+556	Kaneohe
+557	Brunswick
+558	Little Rock
+559	West Virginia
+560	Jefferson City
+561	Everett
+562	Chattanooga
+563	Manti
+564	Amesbury
+565	Brighton and Hove
+566	Fort Wayne
+567	Newcastle
+568	Saskatchewan
+569	Savannah
+570	Exeter
+571	Heber City
+572	Hobart
+573	Lakehurst
+574	West Memphis
+575	Moorhead
+576	Fontana
+577	Pittsfield
+578	Brantford
+579	Shawnee
+580	Daytona Beach
+581	Burnley
+582	Tooele
+583	Greenville
+584	Traverse City
+585	Pennsylvania
+586	East Lansing
+587	Asbury Park
+588	Wyoming
+589	Lexington
+590	Spokane
+591	Socorro
+592	Nyack
+593	Idaho City
+594	Las Cruces
+595	Alaska
+596	Dickinson
+597	Jackson
+598	Blackpool
+599	Cape May
+600	Fort Collins
+601	Akron
+602	Amana Colonies
+603	Huntington
+604	Arcadia
+605	Santa Rosa
+606	Revere
+607	Liverpool
+608	Florissant
+609	Monroe
+610	New Orleans
+611	Bourne
+612	Quincy
+613	Naples
+614	Swansea
+615	Tampa
+616	Leominster
+617	Grafton
+618	Selma
+619	Massachusetts
+620	Estes Park
+621	San Felipe
+622	Quebec
+623	Werribee
+624	Asheville
+625	Orange
+626	Malden
+627	Independence
+628	Shiprock
+629	Aliquippa
+630	Laredo
+631	Sunderland
+632	Carrollton
+633	Huntsville
+634	Milton Keynes
+635	Napa
+636	East Hartford
+637	Elwood
+638	Cairo
+639	Kenosha
+640	Chelmsford
+641	Burbank
+642	Moline
+643	Vineland
+644	Cheltenham
+645	Modesto
+646	Birmingham
+647	El Dorado
+648	Calexico
+649	Oxnard
+650	Bellefontaine
+651	Erie
+652	Stamford
+653	Poughkeepsie
+654	Mobile
+655	Honesdale
+656	Redding
+657	Olathe
+658	Rancho Cucamonga
+659	San Luis Obispo
+660	Vermillion
+661	Bradenton
+662	Sonoma
+663	Central Falls
+664	Eveleth
+665	El Monte
+666	Greater Manchester
+667	Pekin
+668	Plymouth
+669	Interlochen
+670	Coventry
+671	Galesburg
+672	Nottingham
+673	Hagerstown
+674	Petersburg
+675	Tullahoma
+676	Iowa City
+677	Pine Bluff
+678	Miami
+679	High Point
+680	Saint Louis
+681	Valparaiso
+682	Deerfield Beach
+683	Brookline
+684	Toledo
+685	Palmdale
+686	Romney
+687	Dayton
+688	Kitchener
+689	Normal
+690	Kawartha Lakes
+691	Lewes
+692	Troy
+693	Sheridan
+694	Lompoc
+695	West Palm Beach
+696	Martinsville
+697	Joplin
+698	Kewanee
+699	Ansonia
+700	Shawneetown
+701	Waterloo
+702	Albert Lea
+703	Gainesville
+704	Henderson
+705	Wichita
+706	Midland
+707	Utah
+708	Gananoque
+709	Dover
+710	Groton
+711	Vancouver
+712	Southend-on-Sea
+713	Escondido
+714	Phenix City
+715	Norton
+716	Largo
+717	Natick
+718	Santa Barbara
+719	Fall River
+720	Morganton
+721	Thorold
+722	Cleveland
+723	Woodstock
+724	Branford
+725	Oregon City
+726	Kittery
+727	Germantown
+728	Oswego
+729	Athens
+730	Clovis
+731	Corydon
+732	Gatineau
+733	Dothan
+734	Manhattan
+735	Bessemer
+736	Bangor
+737	Anderson
+738	Burnaby
+739	Florida
+740	Cuyahoga Falls
+741	Dahlonega
+742	Lorain
+743	San Clemente
+744	Climax
+745	Abingdon
+746	Victorville
+747	West Bend
+748	Watkins Glen
+749	Grand Island
+750	New Harmony
+751	Hingham
+752	Northern Territory
+753	Petaluma
+754	Ojai
+755	Murfreesboro
+756	Newfoundland and Labrador
+757	Ossining
+758	Sharon
+759	Red Wing
+760	Palm Bay
+761	Clanton
+762	Saint Augustine
+763	Duncan
+764	Corpus Christi
+765	Pinehurst
+766	Lancaster
+767	Monterey
+768	Caldwell
+769	Elgin
+770	Alton
+771	Newburyport
+772	West Yorkshire
+773	Stevens Point
+774	Weirton
+775	Cahokia
+776	Magog
+777	Cumberland
+778	McPherson
+779	Faribault
+780	Madison
+781	Berlin
+782	Ishpeming
+783	Bakersfield
+784	American Fork
+785	Wilmington
+786	Fremantle
+787	Vermont
+788	Hartsville
+789	Emmitsburg
+790	Mystic
+791	Westport
+792	Preston
+793	Seymour
+794	Fort Frances
+795	Barrie
+796	Van Buren
+797	Fort Erie
+798	Oskaloosa
+799	Anaheim
+800	Grand Haven
+801	Lake Wales
